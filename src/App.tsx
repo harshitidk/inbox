@@ -133,7 +133,6 @@ export default function App() {
   const { scrollYProgress: globalScroll } = useScroll();
 
   // Camera snap effect for chevrons
-  const chevronOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1], { clamp: true });
   const chevronScale = useTransform(scrollYProgress, [0, 0.05, 0.1], [1.5, 0.95, 1], { clamp: true }); 
 
   const words = "Inbox is a packaging partner that makes sure what you design is exactly what gets delivered".split(" ");
