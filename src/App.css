@@ -28,12 +28,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 }
 
 /* Logo */
 .logo-ellipse {
   position: absolute;
-  top: 60px;
+  top: 40px; /* Closer to top */
+  left: 40px; /* Closer to left border */
   width: 88px;
   height: 38px;
   display: flex;
@@ -55,7 +57,7 @@ body {
 /* Main Content */
 .main-content {
   position: absolute;
-  top: 45%;
+  top: 40%; /* Moved a little to bottom */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -100,15 +102,80 @@ body {
   letter-spacing: 3.2px;
 }
 
+/* Hero Stats Bar */
+.hero-stats-bar {
+  position: absolute;
+  bottom: 115px; /* Moved slightly down */
+  left: 0;
+  width: 100vw;
+  background-color: var(--primary-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
+  padding: 12px 0; /* Reduced height */
+  color: #fff;
+  z-index: 2;
+  overflow: hidden; /* Required for the reflection mask */
+}
+
+/* Reflection Light Animation */
+.hero-stats-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -300px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: skewX(-30deg);
+  animation: shimmerLight 6s infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes shimmerLight {
+  0% { left: -300px; }
+  15% { left: 120vw; }
+  100% { left: 120vw; }
+}
+
+.stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: 'Albert Sans', sans-serif;
+  position: relative;
+  z-index: 1; /* Keeps text above the reflection */
+}
+
+.stat-num {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.stat-text {
+  font-weight: 400;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
 /* Bottom Bar */
 .bottom-bar {
   position: fixed;
   bottom: 40px;
   left: 0;
   right: 0;
-  margin: 0 auto;
-  width: 90%;
-  max-width: 1100px;
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  padding: 0 40px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -183,9 +250,10 @@ body {
 /* Secondary Scroll Section */
 .secondary-section {
   width: 100vw;
-  height: 300vh; /* Long scroll area */
+  height: 450vh; /* Increased for CTA clicking buffer */
   position: relative;
-  background-color: var(--bg-color);
+  background-color: transparent;
+  z-index: 1;
 }
 
 .sticky-wrapper {
@@ -283,6 +351,82 @@ body {
 .bracket-tr { top: 0; right: 0; border-width: 2px 2px 0 0; border-top-right-radius: 3px; }
 .bracket-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; border-bottom-left-radius: 3px; }
 .bracket-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; border-bottom-right-radius: 3px; }
+
+/* Background Calibration Grid */
+.bg-grid-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-v-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.center-line {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.grid-h-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.03);
+  transform-origin: center;
+}
+
+.grid-crosshair {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+}
+.grid-crosshair .ch-v {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.grid-crosshair .ch-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.grid-label {
+  position: absolute;
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.15);
+  letter-spacing: 2px;
+  transform: translate(8px, -18px);
+}
+
+.grid-ruler {
+  position: absolute;
+  display: flex;
+  gap: 12px;
+  transform: translate(12px, -50%);
+}
+.ruler-tick {
+  width: 1px;
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
 
 /* Custom Liquid Cursor */
 .custom-cursor {
