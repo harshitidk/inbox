@@ -604,8 +604,8 @@ export default function App() {
 
   const words = "Inbox is a packaging partner that makes sure what you design is exactly what gets delivered".split(" ");
   
-  const ctaOpacity = useTransform(scrollYProgress, [0.65, 0.8], [0, 1], { clamp: true });
-  const ctaY = useTransform(scrollYProgress, [0.65, 0.8], [20, 0], { clamp: true });
+  const ctaOpacity = useTransform(scrollYProgress, [0.65, 0.75], [0, 1], { clamp: true });
+  const ctaY = useTransform(scrollYProgress, [0.65, 0.75], [20, 0], { clamp: true });
 
   return (
     <>
@@ -709,8 +709,8 @@ export default function App() {
             <div className="scroll-text-container">
               <p className="secondary-title">
                 {words.map((word, i) => {
-                  const start = 0.1 + (i / words.length) * 0.5; // 0.1 to 0.6 range
-                  const end = start + (0.5 / words.length);
+                  const start = 0.05 + (i / words.length) * 0.55; // 0.05 to 0.6 range
+                  const end = start + (0.55 / words.length);
                   return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word}</Word>;
                 })}
               </p>

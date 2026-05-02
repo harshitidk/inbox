@@ -270,7 +270,7 @@ body {
 /* Secondary Scroll Section */
 .secondary-section {
   width: 100vw;
-  height: 450vh; /* Increased for CTA clicking buffer */
+  height: 500vh; /* Increased for longer pin duration */
   position: relative;
   background-color: transparent;
   z-index: 1;
