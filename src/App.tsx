@@ -35,10 +35,19 @@ function CustomCursor() {
 }
 
 function Word({ children, progress, range }: { children: React.ReactNode, progress: MotionValue<number>, range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.3, 1], { clamp: true });
-  const y = useTransform(progress, range, [10, 0], { clamp: true });
+  const opacity = useTransform(progress, range, [0.35, 1], { clamp: true });
+  const y = useTransform(progress, range, [12, 0], { clamp: true });
+  
+  // "Inking" effect: stays gray until the last 15% of its reveal range, then snaps to blue
+  const color = useTransform(
+    progress, 
+    [range[0], range[0] + (range[1] - range[0]) * 0.85, range[1]], 
+    ["#A0A0A0", "#A0A0A0", "#0069b9"], 
+    { clamp: true }
+  );
+  
   return (
-    <motion.span className="word-span" style={{ opacity, y }}>
+    <motion.span className="word-span" style={{ opacity, y, color }}>
       {children}
     </motion.span>
   );
@@ -321,7 +330,7 @@ function ProcessSection() {
   // --- Title scroll animation ---
   const titleY = useTransform(scrollYProgress, [0, 0.12], [40, 0], { clamp: true });
   const titleScale = useTransform(scrollYProgress, [0, 0.12], [0.95, 1], { clamp: true });
-  const tagY = useTransform(scrollYProgress, [0, 0.08], [20, 0], { clamp: true });
+
 
   // --- Blue progress circle (strokeDashoffset draws the arc) ---
   const circleCircumference = 2 * Math.PI * 220; // circleR = 220
@@ -595,8 +604,8 @@ export default function App() {
 
   const words = "Inbox is a packaging partner that makes sure what you design is exactly what gets delivered".split(" ");
   
-  const ctaOpacity = useTransform(scrollYProgress, [0.55, 0.65], [0, 1], { clamp: true });
-  const ctaY = useTransform(scrollYProgress, [0.55, 0.65], [20, 0], { clamp: true });
+  const ctaOpacity = useTransform(scrollYProgress, [0.65, 0.8], [0, 1], { clamp: true });
+  const ctaY = useTransform(scrollYProgress, [0.65, 0.8], [20, 0], { clamp: true });
 
   return (
     <>
@@ -700,8 +709,8 @@ export default function App() {
             <div className="scroll-text-container">
               <p className="secondary-title">
                 {words.map((word, i) => {
-                  const start = 0.1 + (i / words.length) * 0.4; // 0.1 to 0.5 range
-                  const end = start + (0.4 / words.length);
+                  const start = 0.1 + (i / words.length) * 0.5; // 0.1 to 0.6 range
+                  const end = start + (0.5 / words.length);
                   return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word}</Word>;
                 })}
               </p>

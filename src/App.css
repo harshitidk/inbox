@@ -286,15 +286,15 @@ body {
   justify-content: flex-start;
   align-items: center;
   padding-top: 120px;
-  overflow: hidden;
+  /* Removed overflow: hidden to prevent CTA clipping */
 }
 
 .frame-container {
   position: relative;
   width: 90vw;
   max-width: 1100px;
-  height: auto; /* Let it fit content */
-  min-height: 400px;
+  height: auto;
+  min-height: 500px; /* Increased to accommodate text + CTA */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -316,7 +316,7 @@ body {
   font-family: 'Instrument Serif', serif;
   font-size: 70px;
   line-height: 1.11;
-  color: var(--primary-blue);
+  color: #A0A0A0; /* Base color is gray */
   letter-spacing: -2.8px;
   margin-bottom: 20px;
   max-width: 760px;
