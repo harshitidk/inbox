@@ -31,6 +31,25 @@ body {
   z-index: 1;
 }
 
+/* Hero Background Overlay */
+.hero-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-bg-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
 /* Logo */
 .logo-ellipse {
   position: absolute;
@@ -180,9 +199,10 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  pointer-events: none;
 }
 
-.location-time {
+.location-time, .location-country {
   font-family: 'Albert Sans', sans-serif;
   font-weight: 500;
   font-size: 10px;
@@ -190,17 +210,10 @@ body {
   letter-spacing: 1.2px;
   white-space: nowrap;
   flex: 1;
-  text-align: left;
+  pointer-events: auto;
 }
 
 .location-country {
-  font-family: 'Albert Sans', sans-serif;
-  font-weight: 500;
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 1.2px;
-  white-space: nowrap;
-  flex: 1;
   text-align: right;
 }
 
@@ -209,43 +222,50 @@ body {
   align-items: center;
   gap: 40px;
   flex: 0 0 auto;
+  pointer-events: auto;
+  color: #1a1a1a;
 }
 
 .nav-link {
   font-family: 'Albert Sans', sans-serif;
   font-weight: 700;
   font-size: 11px;
-  color: var(--text-gray);
+  color: rgba(26, 26, 26, 0.6);
   letter-spacing: 1.4px;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.nav-link.active, .nav-link:hover {
+  color: #1a1a1a;
 }
 
 .nav-link.active {
-  color: var(--primary-blue);
-}
-
-.nav-link:hover {
-  color: var(--primary-blue);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .quote-btn {
-  font-family: 'Albert Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 11px;
-  color: var(--text-gray);
-  letter-spacing: 1.4px;
+  font-size: 10px;
+  color: inherit;
+  letter-spacing: 2px;
   text-decoration: none;
-  border: 1px solid black;
-  border-radius: 34px;
-  padding: 8px 18px;
-  transition: all 0.3s ease;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 10px 24px;
+  background-color: transparent;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+  pointer-events: auto;
 }
 
 .quote-btn:hover {
   background-color: var(--primary-blue);
   border-color: var(--primary-blue);
   color: white;
+  transform: translateY(-1px);
 }
 /* Secondary Scroll Section */
 .secondary-section {
@@ -311,30 +331,459 @@ body {
 }
 
 .secondary-cta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 8px 0;
+  margin-top: 48px;
   text-decoration: none;
-  color: #a57f00;
-  font-family: 'Albert Sans', sans-serif;
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: 0.8px;
-  text-transform: lowercase;
-  margin-top: 20px;
-  transition: all 0.3s ease;
+  color: #A57F00;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: transparent;
+  border: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .secondary-cta svg {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .secondary-cta:hover {
-  opacity: 0.8;
+  transform: translateY(-4px);
+}
+
+.secondary-cta:hover svg {
+  transform: translateX(8px);
+}
+
+/* -------------------------------------
+   SERVICES SECTION
+------------------------------------- */
+.services-section {
+  position: relative;
+  width: 100%;
+  height: 400vh; /* Tall enough for 4 staggered card reveals */
+  z-index: 1;
+}
+
+.services-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 80px 40px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Cards slide up from below — clip them until they arrive */
+}
+
+.services-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 7vw;
+  color: var(--primary-blue);
+  margin: 0 0 60px 0;
+  letter-spacing: -2px;
+  font-weight: 400;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.services-grid {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.service-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0; /* Prevents flex items from blowing out */
+}
+
+.service-number {
+  background-color: #eff4f9;
+  color: #2c6fa2;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 2.64px;
+  padding: 12px 24px;
+  border-radius: 32px;
+  width: fit-content;
+}
+
+.service-image-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  background-color: #eff4f9;
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.placeholder-blue {
+  background-color: #0069b9;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.05);
+  opacity: 0.2; /* Dims the image slightly so text is readable */
+}
+
+/* Base overlay which acts as the tinted background on hover */
+.service-image-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #0069b9;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.service-card:hover .service-image-container::before {
+  opacity: 0.9;
+}
+
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.service-overlay-content {
+  position: absolute;
+  top: -180px; /* Hidden above the box initially, as per Figma */
+  left: 24px;
+  width: 186px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: top 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+
+.service-card:hover .service-overlay-content {
+  top: 40px; /* Slides into view */
+  opacity: 1;
+}
+
+.service-overlay-content h3 {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: white;
+  letter-spacing: 0.95px;
+  margin: 0;
+  padding: 0 6px;
+  text-transform: capitalize;
+}
+
+.service-overlay-content ul {
+  list-style-type: disc;
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: white;
+  letter-spacing: 1.21px;
+  margin: 0;
+  padding-left: 22px; /* For the disc */
+  text-transform: capitalize;
+}
+
+.service-overlay-content li {
+  line-height: 1.69;
+  margin-bottom: 0px;
+}
+
+.service-label {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: black;
+  letter-spacing: -0.8px;
+  margin: 0;
+  text-transform: lowercase;
 }
 
 .secondary-cta:hover svg {
   transform: translateX(6px);
+}
+
+/* Responsive Services Grid */
+@media (max-width: 1024px) {
+  .services-grid {
+    flex-wrap: wrap;
+  }
+  .service-card {
+    flex: 1 1 calc(50% - 15px); /* 2 per row */
+  }
+}
+
+@media (max-width: 768px) {
+  .services-sticky-wrapper {
+    padding: 60px 20px 20px;
+  }
+  .services-title {
+    font-size: 12vw;
+    margin-bottom: 30px;
+  }
+  .service-card {
+    flex: 1 1 100%; /* 1 per row */
+  }
+  .service-image-container {
+    height: 240px;
+  }
+}
+
+/* =============================================
+   PROCESS SECTION — Circular System Map
+============================================= */
+.process-section {
+  position: relative;
+  width: 100%;
+  height: 280vh;
+  z-index: 1;
+  background-color: var(--bg-color);
+  margin-top: 15vh;
+}
+
+.process-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.process-container {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 40px 60px; /* Reduced top padding to move title up */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Section label & title */
+.process-section-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.process-section-tag {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.process-section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 7.2vw;
+  font-weight: 500;
+  font-style: italic;
+  color: #005596; /* Deeper blue for better visibility */
+  letter-spacing: -2px;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Process visual container */
+.process-visual {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+/* SVG container */
+.process-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.process-node-dot {
+  transition: fill 0.5s ease;
+}
+
+.process-indicator-dot {
+  filter: drop-shadow(0 0 6px rgba(0, 105, 185, 0.4));
+}
+
+/* Node labels */
+.process-node-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  color: rgba(0, 0, 0, 0.65); /* Darker for better visibility */
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.5s ease;
+  pointer-events: none;
+}
+
+.process-node-label.active {
+  color: var(--primary-blue);
+}
+
+/* Center content */
+.process-center-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  text-align: center;
+  z-index: 2;
+}
+
+.process-center-step {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.process-center-step.visible {
+  display: flex;
+}
+
+.process-step-number {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #0069b9;
+  opacity: 1;
+}
+
+.process-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: #000000;
+  letter-spacing: -1px;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.process-subtext {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #222222;
+  margin: 0;
+  max-width: 260px;
+}
+
+/* Background measurement grid */
+.process-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pg-line {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.pg-line.pg-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.pg-line.pg-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+/* Calculation marks */
+.pg-calc {
+  position: absolute;
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.15);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+
+/* ---- Process responsive ---- */
+@media (max-width: 768px) {
+  .process-section-title {
+    font-size: 42px;
+    letter-spacing: -1px;
+  }
+
+  .process-visual {
+    max-width: 340px;
+  }
+
+  .process-center-content {
+    width: 180px;
+  }
+
+  .process-headline {
+    font-size: 22px;
+  }
+
+  .process-subtext {
+    font-size: 11px;
+    max-width: 170px;
+  }
+
+  .process-node-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .process-container {
+    padding: 40px 20px;
+  }
 }
 
 /* Corner Brackets */
@@ -476,5 +925,97 @@ body {
     flex-direction: column;
     gap: 30px;
     bottom: 40px;
+  }
+}
+
+/* =============================================
+   CLIENTS SECTION
+============================================= */
+.clients-section {
+  padding: 100px 40px;
+  background-color: var(--bg-color);
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.clients-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.clients-header {
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+.section-tag {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--primary-blue);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 4vw;
+  font-weight: 400;
+  font-style: italic;
+  color: black;
+  margin: 0;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: rgba(0,0,0,0.08); /* Grid line color */
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.client-box {
+  background-color: var(--bg-color);
+  aspect-ratio: 3/2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.client-box:hover {
+  background-color: #f9f9f9;
+}
+
+.client-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.client-id {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 600;
+  font-size: 9px;
+  color: rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+}
+
+.client-logo-dummy {
+  width: 100px;
+  height: 30px;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .clients-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .section-title {
+    font-size: 32px;
   }
 }

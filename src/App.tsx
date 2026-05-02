@@ -106,6 +106,436 @@ function BackgroundGrid({ progress }: { progress: MotionValue<number> }) {
   );
 }
 
+/**
+ * Hook to detect if the nav bar is over a dark section
+ */
+
+
+/* -----------------------------------------------
+   Service Card — scroll-linked slide-in wrapper
+----------------------------------------------- */
+function ServiceCard({
+  progress,
+  range,
+  children,
+}: {
+  progress: MotionValue<number>;
+  range: [number, number];
+  children: React.ReactNode;
+}) {
+  // Slide up from 300px below — deep, dramatic entrance
+  const y = useTransform(progress, [range[0], range[1]], [300, 0], { clamp: true });
+  const scale = useTransform(progress, [range[0], range[1]], [0.92, 1], { clamp: true });
+  // No opacity animation — overflow:hidden on the wrapper hides cards until they slide up.
+  // This guarantees cards are ALWAYS fully visible once in position.
+
+  return (
+    <motion.div className="service-card group" style={{ y, scale }}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* -----------------------------------------------
+   Services Section — sticky scroll reveal
+----------------------------------------------- */
+function ServicesSection() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+
+  // Title: scroll 0 → 0.08 (y + blur only, always full opacity)
+  const titleY = useTransform(scrollYProgress, [0, 0.08], [40, 0], { clamp: true });
+  const titleBlur = useTransform(scrollYProgress, [0, 0.08], [4, 0], { clamp: true });
+  const titleFilter = useTransform(titleBlur, (v) => `blur(${v}px)`);
+
+  return (
+    <section className="services-section" ref={ref} data-theme="dark">
+      <div className="services-sticky-wrapper">
+        <motion.h2
+          className="services-title"
+          style={{ y: titleY, filter: titleFilter }}
+        >
+          table of services
+        </motion.h2>
+        <div className="services-grid">
+          {/* Card 01 — scroll 0.1 → 0.3 */}
+          <ServiceCard progress={scrollYProgress} range={[0.1, 0.3]}>
+            <div className="service-number">01</div>
+            <div className="service-image-container">
+              <img src="/service-1.png" alt="Printing Systems" className="service-image" />
+              <div className="service-overlay">
+                <div className="service-overlay-content">
+                  <h3>Printing Systems</h3>
+                  <ul>
+                    <li>Offset Printing</li>
+                    <li>Digital Printing</li>
+                    <li>Large Format</li>
+                    <li>Specialty Finishes</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p className="service-label">printing systems</p>
+          </ServiceCard>
+
+          {/* Card 02 — scroll 0.3 → 0.5 */}
+          <ServiceCard progress={scrollYProgress} range={[0.3, 0.5]}>
+            <div className="service-number">02</div>
+            <div className="service-image-container">
+              <img src="/service-2.png" alt="Branding & Print Assets" className="service-image" />
+              <div className="service-overlay">
+                <div className="service-overlay-content">
+                  <h3>Packaging Systems</h3>
+                  <ul>
+                    <li>Packaging Boxes</li>
+                    <li>Structural Packaging</li>
+                    <li>Inserts</li>
+                    <li>Labels & Tags</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p className="service-label">branding & print assets</p>
+          </ServiceCard>
+
+          {/* Card 03 — scroll 0.5 → 0.7 */}
+          <ServiceCard progress={scrollYProgress} range={[0.5, 0.7]}>
+            <div className="service-number">03</div>
+            <div className="service-image-container">
+              <img src="/display_experience_service_1777743175048.png" alt="Display & Experience" className="service-image" />
+              <div className="service-overlay">
+                <div className="service-overlay-content">
+                  <h3>Display & Experience</h3>
+                  <ul>
+                    <li>Retail Displays</li>
+                    <li>Exhibition Stands</li>
+                    <li>Signage</li>
+                    <li>Event Materials</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p className="service-label">display & experience</p>
+          </ServiceCard>
+
+          {/* Card 04 — scroll 0.7 → 0.9 */}
+          <ServiceCard progress={scrollYProgress} range={[0.7, 0.9]}>
+            <div className="service-number">04</div>
+            <div className="service-image-container">
+              <img src="/custom_scale_production_1777743195201.png" alt="Custom & Scale" className="service-image" />
+              <div className="service-overlay">
+                <div className="service-overlay-content">
+                  <h3>Custom & Scale</h3>
+                  <ul>
+                    <li>Prototyping</li>
+                    <li>Mass Production</li>
+                    <li>Quality Control</li>
+                    <li>Global Shipping</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p className="service-label">custom & scale production</p>
+          </ServiceCard>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -----------------------------------------------
+   Process Section — circular scroll-driven reveal
+----------------------------------------------- */
+const PROCESS_STEPS = [
+  {
+    label: '01 / INIT',
+    headline: 'Complete Understanding',
+    subtext: 'We begin by mapping every variable — material specs, brand guidelines, structural tolerances, and delivery constraints. Nothing is assumed.',
+  },
+  {
+    label: '02 / PROCESS',
+    headline: 'Design & Production',
+    subtext: 'From die-line engineering to press calibration, every element is built with repeatable precision. We produce at the intersection of craft and system.',
+  },
+  {
+    label: '03 / VERIFIED',
+    headline: 'Quality Check & Delivery',
+    subtext: 'Each unit is inspected against specification. Color accuracy, structural integrity, finishing quality — verified before it leaves the facility.',
+  },
+];
+
+// Positions for the 3 nodes on the circle (in degrees, 0 = top)
+// Top = 270°, Right = 30°, Bottom-left = 150° (in standard math coords)
+const NODE_ANGLES = [270, 30, 150]; // degrees
+
+function getPointOnCircle(angleDeg: number, radius: number, cx: number, cy: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return {
+    x: cx + radius * Math.cos(rad),
+    y: cy + radius * Math.sin(rad),
+  };
+}
+
+/* -----------------------------------------------
+   Clients Section — Precision Grid
+----------------------------------------------- */
+function ClientsSection() {
+  return (
+    <section className="clients-section" id="clients" data-theme="light">
+      <div className="clients-container">
+        <div className="clients-header">
+          <span className="section-tag">PARTNERS</span>
+          <h2 className="section-title">trusted by the best</h2>
+        </div>
+        <div className="clients-grid">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="client-box">
+              <div className="client-placeholder">
+                <span className="client-id">C-{i.toString().padStart(2, '0')}</span>
+                <div className="client-logo-dummy" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProcessSection() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  });
+
+  // --- Circle ring visibility (only the ring fades in, not the text) ---
+  const ringOpacity = useTransform(scrollYProgress, [0.02, 0.10], [0, 1], { clamp: true });
+
+  // --- Grid intensity (subtle background detail) ---
+  const gridIntensity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.9, 1], [0.3, 0.7, 0.8, 0.7, 0.4], { clamp: true });
+
+  // --- Title scroll animation ---
+  const titleY = useTransform(scrollYProgress, [0, 0.12], [40, 0], { clamp: true });
+  const titleScale = useTransform(scrollYProgress, [0, 0.12], [0.95, 1], { clamp: true });
+  const tagY = useTransform(scrollYProgress, [0, 0.08], [20, 0], { clamp: true });
+
+  // --- Blue progress circle (strokeDashoffset draws the arc) ---
+  const circleCircumference = 2 * Math.PI * 220; // circleR = 220
+  const progressOffset = useTransform(
+    scrollYProgress,
+    [0.10, 0.35, 0.65, 0.92],
+    [circleCircumference, circleCircumference * 0.66, circleCircumference * 0.33, 0],
+    { clamp: true }
+  );
+
+  // --- Active step index (0, 1, 2) ---
+  const activeStep = useTransform(scrollYProgress, (v) => {
+    if (v < 0.15) return -1;       // entry
+    if (v < 0.35) return 0;        // step 01
+    if (v < 0.65) return 1;        // step 02
+    if (v < 0.9) return 2;         // step 03
+    return 3;                      // completion
+  });
+
+  const [currentStep, setCurrentStep] = useState(-1);
+  useEffect(() => {
+    const unsubscribe = activeStep.on('change', (v) => setCurrentStep(v));
+    return () => unsubscribe();
+  }, [activeStep]);
+
+  // --- Indicator dot angle along the circle ---
+  const dotAngle = useTransform(scrollYProgress, [0.15, 0.35, 0.65, 0.9], [270, 390, 510, 630], { clamp: true });
+
+  // --- Center content Y translations only (NO opacity animation) ---
+  const centerY0 = useTransform(scrollYProgress, [0.15, 0.20], [30, 0], { clamp: true });
+  const centerY1 = useTransform(scrollYProgress, [0.35, 0.40], [30, 0], { clamp: true });
+  const centerY2 = useTransform(scrollYProgress, [0.65, 0.70], [30, 0], { clamp: true });
+
+  // Circle dimensions
+  const circleR = 220;
+  const cx = 300;
+  const cy = 300;
+
+  return (
+    <section className="process-section" ref={ref} data-theme="light">
+      <div className="process-sticky-wrapper">
+        <div className="process-container">
+          {/* Section title — scroll-animated */}
+          <div className="process-section-label">
+            <motion.h2 
+              className="process-section-title" 
+              style={{ y: titleY, scale: titleScale, opacity: 1 }}
+            >
+              our process
+            </motion.h2>
+          </div>
+
+          {/* Process visualization area */}
+          <div className="process-visual">
+            {/* Background measurement grid */}
+            <motion.div className="process-grid-overlay" style={{ opacity: gridIntensity }}>
+              <div className="pg-line pg-h" style={{ top: '25%' }} />
+              <div className="pg-line pg-h" style={{ top: '50%' }} />
+              <div className="pg-line pg-h" style={{ top: '75%' }} />
+              <div className="pg-line pg-v" style={{ left: '25%' }} />
+              <div className="pg-line pg-v" style={{ left: '50%' }} />
+              <div className="pg-line pg-v" style={{ left: '75%' }} />
+              {/* Calculation marks */}
+              <div className="pg-calc" style={{ top: '18%', left: '12%' }}>δ = 0.02</div>
+              <div className="pg-calc" style={{ top: '78%', right: '10%' }}>σ = 1.04</div>
+              <div className="pg-calc" style={{ bottom: '8%', left: '18%' }}>μ = 0.98</div>
+            </motion.div>
+
+            {/* SVG Circle System */}
+            <svg className="process-svg" viewBox="0 0 600 600">
+              {/* Dotted circular path (background track) */}
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r={circleR}
+                fill="none"
+                stroke="rgba(0,0,0,0.12)"
+                strokeWidth="1.5"
+                strokeDasharray="6 10"
+                style={{ opacity: ringOpacity }}
+              />
+
+              {/* Blue progress circle — draws as you scroll */}
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r={circleR}
+                fill="none"
+                stroke="#0069b9"
+                strokeWidth="3"
+                strokeLinecap="round"
+                style={{
+                  strokeDasharray: circleCircumference,
+                  strokeDashoffset: progressOffset,
+                  opacity: ringOpacity,
+                  transformOrigin: '50% 50%',
+                  transform: 'rotate(-90deg)',
+                }}
+              />
+
+              {/* Node points — always full opacity once visible */}
+              {NODE_ANGLES.map((angle, i) => {
+                const pos = getPointOnCircle(angle, circleR, cx, cy);
+                const isActive = currentStep >= i;
+                return (
+                  <g key={i} opacity={isActive ? 1 : 0.4}>
+                    {/* Outer ring */}
+                    <circle cx={pos.x} cy={pos.y} r="18" fill="none" stroke={isActive ? "rgba(0, 105, 185, 0.6)" : "rgba(0, 105, 185, 0.3)"} strokeWidth="1.5" />
+                    {/* Inner dot */}
+                    <circle
+                      cx={pos.x}
+                      cy={pos.y}
+                      r="6"
+                      fill={isActive ? '#0069b9' : 'rgba(0, 105, 185, 0.2)'}
+                    />
+                    {/* Tick marks */}
+                    <line x1={pos.x - 26} y1={pos.y} x2={pos.x - 20} y2={pos.y} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+                    <line x1={pos.x + 20} y1={pos.y} x2={pos.x + 26} y2={pos.y} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+                    <line x1={pos.x} y1={pos.y - 26} x2={pos.x} y2={pos.y - 20} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+                    <line x1={pos.x} y1={pos.y + 20} x2={pos.x} y2={pos.y + 26} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+                  </g>
+                );
+              })}
+
+              {/* Traveling indicator dot */}
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r="5"
+                fill="#0069b9"
+                className="process-indicator-dot"
+                style={{
+                  cx: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).x),
+                  cy: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).y),
+                  opacity: currentStep >= 0 && currentStep < 3 ? 1 : 0,
+                }}
+              />
+              {/* Indicator glow */}
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r="12"
+                fill="rgba(0, 105, 185, 0.2)"
+                style={{
+                  cx: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).x),
+                  cy: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).y),
+                  opacity: currentStep >= 0 && currentStep < 3 ? 1 : 0,
+                }}
+              />
+            </svg>
+
+            {/* Node labels — full opacity, color toggles on active */}
+            {PROCESS_STEPS.map((step, i) => {
+              const angle = NODE_ANGLES[i];
+              const labelPos = getPointOnCircle(angle, circleR + 45, cx, cy);
+              const pct = { x: (labelPos.x / 600) * 100, y: (labelPos.y / 600) * 100 };
+
+              return (
+                <div
+                  key={i}
+                  className={`process-node-label ${currentStep >= i ? 'active' : ''}`}
+                  style={{
+                    left: `${pct.x}%`,
+                    top: `${pct.y}%`,
+                    opacity: 1,
+                  }}
+                >
+                  {step.label}
+                </div>
+              );
+            })}
+
+            {/* Center content — ALWAYS full opacity, only y-translate animates */}
+            <div className="process-center-content">
+              {PROCESS_STEPS.map((step, i) => {
+                const y = [centerY0, centerY1, centerY2][i];
+                const isVisible = currentStep === i;
+                return (
+                  <motion.div
+                    key={i}
+                    className="process-center-step"
+                    style={{
+                      y: isVisible ? y : 0,
+                      opacity: isVisible ? 1 : 0,
+                      display: isVisible ? 'flex' : 'none',
+                    }}
+                  >
+                    <span className="process-step-number">0{i + 1}</span>
+                    <h3 className="process-headline">{step.headline}</h3>
+                    <p className="process-subtext">{step.subtext}</p>
+                  </motion.div>
+                );
+              })}
+
+              {/* Completion state — full opacity */}
+              <div
+                className="process-center-step"
+                style={{
+                  opacity: currentStep === 3 ? 1 : 0,
+                  display: currentStep === 3 ? 'flex' : 'none',
+                }}
+              >
+                <span className="process-step-number">✓</span>
+                <h3 className="process-headline">System Complete</h3>
+                <p className="process-subtext">Every step verified. Every variable accounted for. Your packaging is engineered — not guessed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   // Dynamic real-time clock for Delhi (DEL)
   const [time, setTime] = useState(new Date());
@@ -124,6 +554,33 @@ export default function App() {
     timeZone: 'Asia/Kolkata'
   }).toUpperCase();
 
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    const sections = ['home', 'services', 'process', 'clients'];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -131,6 +588,7 @@ export default function App() {
   });
 
   const { scrollYProgress: globalScroll } = useScroll();
+
 
   // Camera snap effect for chevrons
   const chevronScale = useTransform(scrollYProgress, [0, 0.05, 0.1], [1.5, 0.95, 1], { clamp: true }); 
@@ -145,84 +603,89 @@ export default function App() {
       <CustomCursor />
       <BackgroundGrid progress={globalScroll} />
       
-      <motion.div 
-        className="home-container"
-        initial={{ scale: 0.99, filter: "contrast(0.95)" }}
-        animate={{ 
-          scale: [0.99, 0.99, 0.99, 1.0],
-          filter: ["contrast(0.95)", "contrast(0.95)", "contrast(0.95)", "contrast(1)"]
-        }}
-        transition={{ duration: 2.3, times: [0, 0.70, 0.87, 1.0], ease: "easeOut" }}
-      >
-        {/* Top logo */}
+      {/* Hero Section */}
+      <section id="home">
         <motion.div 
-          className="logo-ellipse"
-          initial={{ opacity: 0, x: -2 }}
+          className="home-container"
+          data-theme="light"
+          initial={{ scale: 0.99, filter: "contrast(0.95)" }}
           animate={{ 
-            opacity: [0, 0, 1, 1, 1], 
-            x: [-2, -2, -2, 0, 0]
+            scale: [0.99, 0.99, 0.99, 1.0],
+            filter: ["contrast(0.95)", "contrast(0.95)", "contrast(0.95)", "contrast(1)"]
           }}
-          transition={{ duration: 2.3, times: [0, 0.35, 0.70, 0.87, 1.0], ease: "easeOut" }}
+          transition={{ duration: 2.3, times: [0, 0.70, 0.87, 1.0], ease: "easeOut" }}
         >
-          <span>inbox</span>
-        </motion.div>
 
-        {/* Main content */}
-        <div className="main-content">
-          <motion.h1 
-            className="hero-title"
-            initial={{ clipPath: "inset(-20% -20% 100% -20%)", opacity: 0.8, x: -2 }}
+          {/* Top logo */}
+          <motion.div 
+            className="logo-ellipse"
+            initial={{ opacity: 0, x: -2 }}
             animate={{ 
-              clipPath: ["inset(-20% -20% 100% -20%)", "inset(-20% -20% 100% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)"], 
-              opacity: [0.8, 0.8, 1, 1, 1],
+              opacity: [0, 0, 1, 1, 1], 
               x: [-2, -2, -2, 0, 0]
             }}
             transition={{ duration: 2.3, times: [0, 0.35, 0.70, 0.87, 1.0], ease: "easeOut" }}
           >
-            the best <span className="italic">printing</span><br />company
-          </motion.h1>
-          
-          <motion.p 
-            className="hero-subtitle"
-            initial={{ clipPath: "inset(-20% -20% 100% -20%)", opacity: 0, x: -2 }}
+            <span>inbox</span>
+          </motion.div>
+
+          {/* Main content */}
+          <div className="main-content">
+            <motion.h1 
+              className="hero-title"
+              initial={{ clipPath: "inset(-20% -20% 100% -20%)", opacity: 0.8, x: -2 }}
+              animate={{ 
+                clipPath: ["inset(-20% -20% 100% -20%)", "inset(-20% -20% 100% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)"], 
+                opacity: [0.8, 0.8, 1, 1, 1],
+                x: [-2, -2, -2, 0, 0]
+              }}
+              transition={{ duration: 2.3, times: [0, 0.35, 0.70, 0.87, 1.0], ease: "easeOut" }}
+            >
+              the best <span className="italic">printing</span><br />company
+            </motion.h1>
+            
+            <motion.p 
+              className="hero-subtitle"
+              initial={{ clipPath: "inset(-20% -20% 100% -20%)", opacity: 0, x: -2 }}
+              animate={{ 
+                clipPath: ["inset(-20% -20% 100% -20%)", "inset(-20% -20% 100% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)"],
+                opacity: [0, 0, 1, 1, 1],
+                x: [-2, -2, -2, 0, 0]
+              }}
+              transition={{ duration: 2.3, times: [0, 0.40, 0.75, 0.87, 1.0], ease: "easeOut" }}
+            >
+              <span className="medium">when it comes to serving</span> <span className="bold">new age brands</span>
+            </motion.p>
+          </div>
+
+          {/* Blue Stats Bar */}
+          <motion.div 
+            className="hero-stats-bar"
+            initial={{ opacity: 0, y: 15, x: 2 }}
             animate={{ 
-              clipPath: ["inset(-20% -20% 100% -20%)", "inset(-20% -20% 100% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)", "inset(-20% -20% -20% -20%)"],
               opacity: [0, 0, 1, 1, 1],
-              x: [-2, -2, -2, 0, 0]
+              y: [15, 15, 2, 0, 0],
+              x: [2, 2, 2, 0, 0]
             }}
             transition={{ duration: 2.3, times: [0, 0.40, 0.75, 0.87, 1.0], ease: "easeOut" }}
           >
-            <span className="medium">when it comes to serving</span> <span className="bold">new age brands</span>
-          </motion.p>
-        </div>
-
-        {/* Blue Stats Bar */}
-        <motion.div 
-          className="hero-stats-bar"
-          initial={{ opacity: 0, y: 15, x: 2 }}
-          animate={{ 
-            opacity: [0, 0, 1, 1, 1],
-            y: [15, 15, 2, 0, 0],
-            x: [2, 2, 2, 0, 0]
-          }}
-          transition={{ duration: 2.3, times: [0, 0.40, 0.75, 0.87, 1.0], ease: "easeOut" }}
-        >
-          <div className="stat-item">
-            <span className="stat-num">30+</span>
-            <span className="stat-text">years of experience</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-num">270+</span>
-            <span className="stat-text">clients experience</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-num">{">"}92%</span>
-            <span className="stat-text">satisfaction score</span>
-          </div>
+            <div className="stat-item">
+              <span className="stat-num">30+</span>
+              <span className="stat-text">years of experience</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-num">270+</span>
+              <span className="stat-text">clients experience</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-num">{">"}92%</span>
+              <span className="stat-text">satisfaction score</span>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </section>
 
-      <section className="secondary-section" ref={sectionRef}>
+      <section className="secondary-section" ref={sectionRef} data-theme="dark">
         <div className="sticky-wrapper">
           <motion.div 
             className="frame-container"
@@ -258,26 +721,31 @@ export default function App() {
         </div>
       </section>
 
+      {/* Services Section */}
+      <div id="services">
+        <ServicesSection />
+      </div>
+
+      {/* Process Section */}
+      <div id="process">
+        <ProcessSection />
+      </div>
+
+      {/* Clients Section */}
+      <ClientsSection />
+
+
       {/* Bottom bar */}
-      <motion.div 
-        className="bottom-bar"
-        initial={{ opacity: 0, y: 15, x: -2 }}
-        animate={{ 
-          opacity: [0, 0, 1, 1, 1],
-          y: [15, 15, 2, 0, 0],
-          x: [-2, -2, -2, 0, 0]
-        }}
-        transition={{ duration: 2.3, times: [0, 0.35, 0.70, 0.87, 1.0], ease: "easeOut" }}
-      >
+      <div className="bottom-bar">
         <div className="location-time">DEL - {formattedTime}</div>
         <div className="nav-items">
-          <a href="#home" className="nav-link active">HOME</a>
-          <a href="#clients" className="nav-link">CLIENTS</a>
-          <a href="#services" className="nav-link">SERVICES</a>
+          <a href="#home" className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}>HOME</a>
+          <a href="#clients" className={`nav-link ${activeSection === 'clients' ? 'active' : ''}`}>CLIENTS</a>
+          <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}>SERVICES</a>
           <a href="#quote" className="quote-btn">GET A QUOTE</a>
         </div>
         <div className="location-country">INDIA</div>
-      </motion.div>
+      </div>
     </>
   );
 }
