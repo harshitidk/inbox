@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, MotionValue, AnimatePresence, useMotionTemplate, useInView } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import type { MotionValue } from 'framer-motion';
 import './App.css';
 
 function CustomCursor() {
@@ -34,9 +36,10 @@ function CustomCursor() {
   );
 }
 
-function Word({ children, progress, range }: { children: React.ReactNode, progress: MotionValue<number>, range: [number, number] }) {
+function Word({ children, progress, range }: { children: ReactNode, progress: MotionValue<number>, range: [number, number] }) {
   const opacity = useTransform(progress, range, [0.35, 1], { clamp: true });
-  const color = useTransform(progress, range, ["#A0A0A0", "#0069b9"], { clamp: true });
+  // The user requested to remove the grey blue and use the original vibrant blue
+  const color = useTransform(progress, range, ["#4a4a4a", "#0069b9"], { clamp: true });
   
   return (
     <motion.span className="word-span" style={{ opacity, color }}>
@@ -165,7 +168,7 @@ function ServiceCard({
 }: {
   progress: MotionValue<number>;
   range: [number, number];
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   // Slide up from 300px below — deep, dramatic entrance
   const y = useTransform(progress, [range[0], range[1]], [300, 0], { clamp: true });
@@ -193,7 +196,7 @@ function ServicesSection() {
   // Title: scroll 0 → 0.08 (y + blur only, always full opacity)
   const titleY = useTransform(scrollYProgress, [0, 0.08], [40, 0], { clamp: true });
   const titleBlur = useTransform(scrollYProgress, [0, 0.08], [4, 0], { clamp: true });
-  const titleFilter = useTransform(titleBlur, (v) => `blur(${v}px)`);
+  const titleFilter = useTransform(titleBlur, (v: number) => `blur(${v}px)`);
 
   return (
     <section className="services-section" ref={ref} data-theme="dark">
@@ -218,7 +221,6 @@ function ServicesSection() {
               </div>
               <div className="service-overlay">
                 <div className="service-overlay-content">
-                  <h3>Printing Systems</h3>
                   <ul>
                     <li>Offset Printing</li>
                     <li>Digital Printing</li>
@@ -242,7 +244,6 @@ function ServicesSection() {
               </div>
               <div className="service-overlay">
                 <div className="service-overlay-content">
-                  <h3>Packaging Systems</h3>
                   <ul>
                     <li>Packaging Boxes</li>
                     <li>Structural Packaging</li>
@@ -266,7 +267,6 @@ function ServicesSection() {
               </div>
               <div className="service-overlay">
                 <div className="service-overlay-content">
-                  <h3>Display & Experience</h3>
                   <ul>
                     <li>Retail Displays</li>
                     <li>Exhibition Stands</li>
@@ -290,7 +290,6 @@ function ServicesSection() {
               </div>
               <div className="service-overlay">
                 <div className="service-overlay-content">
-                  <h3>Custom & Scale</h3>
                   <ul>
                     <li>Prototyping</li>
                     <li>Mass Production</li>
@@ -507,7 +506,7 @@ function ProcessSection() {
   );
 
   // --- Active step index (0, 1, 2) ---
-  const activeStep = useTransform(scrollYProgress, (v) => {
+  const activeStep = useTransform(scrollYProgress, (v: number) => {
     if (v < 0.15) return -1;       // entry
     if (v < 0.35) return 0;        // step 01
     if (v < 0.65) return 1;        // step 02
@@ -629,8 +628,8 @@ function ProcessSection() {
                 fill="#0069b9"
                 className="process-indicator-dot"
                 style={{
-                  cx: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).x),
-                  cy: useTransform(dotAngle, (a) => getPointOnCircle(a, circleR, cx, cy).y),
+                  cx: useTransform(dotAngle, (a: number) => getPointOnCircle(a, circleR, cx, cy).x),
+                  cy: useTransform(dotAngle, (a: number) => getPointOnCircle(a, circleR, cx, cy).y),
                   opacity: currentStep >= 0 && currentStep < 3 ? 1 : 0,
                 }}
               />
@@ -712,22 +711,7 @@ function ProcessSection() {
 }
 
 export default function App() {
-  // Dynamic real-time clock for Delhi (DEL)
-  const [time, setTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formattedTime = time.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    timeZone: 'Asia/Kolkata'
-  }).toUpperCase();
+  // (Time state removed to fix unused variable Vercel error)
 
   const [activeSection, setActiveSection] = useState('home');
 
@@ -869,8 +853,9 @@ export default function App() {
             <div className="scroll-text-container">
               <p className="secondary-title">
                 {words.map((word, i) => {
-                  const start = 0.1 + (i / words.length) * 0.7; // 0.1 to 0.8 range
-                  const end = start + (0.7 / words.length);
+                  // Extremely fast sequence: finishes by 25% of the scroll
+                  const start = 0.05 + (i / words.length) * 0.20; 
+                  const end = start + (0.20 / words.length);
                   return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word}</Word>;
                 })}
               </p>
