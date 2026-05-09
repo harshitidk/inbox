@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import './App.css';
 
 export default function App() {
@@ -34,8 +35,30 @@ export default function App() {
         </div>
       </section>
 
-      <section id="work" style={{ height: '100vh', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <h2 style={{ color: '#fff', fontSize: '3rem', opacity: 0.5 }}>SCROLL TO DISCOVER</h2>
+      <section className="info-section">
+        <div className="container">
+          <motion.h2 
+            className="info-text"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+          >
+            Inbox is a packaging partner that makes sure what you design is exactly what gets delivered
+          </motion.h2>
+          
+          <motion.div 
+            className="info-divider"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            viewport={{ once: true }}
+          />
+        </div>
+      </section>
+
+      <section id="work" style={{ height: '80vh', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <h2 style={{ color: '#fff', fontSize: '1.5rem', opacity: 0.3, letterSpacing: '0.3em' }}>SCROLL TO DISCOVER</h2>
       </section>
     </main>
   );
