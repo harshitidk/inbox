@@ -52,12 +52,12 @@
   position: relative;
   z-index: 10;
   text-align: left; /* Left aligned */
-  max-width: 1000px;
+  max-width: 1400px; /* Increased to prevent accidental wrapping */
   padding: 0 80px 100px 80px; /* Padding for bottom-left positioning */
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-size: clamp(3.5rem, 8vw, 7rem); /* Slightly reduced max fluid size to fit better */
   font-weight: 800;
   line-height: 0.95;
   margin-bottom: 24px;
@@ -68,6 +68,7 @@
   opacity: 0;
   transform: translateY(40px);
   animation: fadeInUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+  width: fit-content;
 }
 
 .hero-subtitle {

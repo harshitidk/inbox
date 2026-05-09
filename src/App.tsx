@@ -27,7 +27,10 @@ export default function App() {
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title">Packaging,<br />designed to be felt.</h1>
+          <h1 className="hero-title">
+            Packaging,<br />
+            designed to be felt.
+          </h1>
         </div>
       </section>
 
