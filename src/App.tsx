@@ -21,7 +21,7 @@ export default function App() {
             playsInline 
             className="hero-video"
           >
-            <source src="/Assets/short-film.mp4" type="video/mp4" />
+            <source src="/Assets/inbox-short-film.mp4" type="video/mp4" />
           </video>
           <div className="hero-overlay"></div>
         </div>
