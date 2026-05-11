@@ -164,7 +164,7 @@ export default function App() {
       parallax: yFast,
       initial: { x: -80, y: 100, opacity: 0 },
       whileInView: { x: 0, y: 0, opacity: 1 },
-      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }
+      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
     },
     {
       img: "/images/services/labels-stickers.png",
@@ -173,7 +173,7 @@ export default function App() {
       parallax: ySlower,
       initial: { scale: 0.9, opacity: 0, filter: 'blur(15px)' },
       whileInView: { scale: 1, opacity: 1, filter: 'blur(0px)' },
-      transition: { duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }
+      transition: { duration: 2, ease: [0.16, 1, 0.3, 1] as any, delay: 0.3 }
     },
     {
       img: "/images/services/display-signage.png",
@@ -182,7 +182,7 @@ export default function App() {
       parallax: ySlow,
       initial: { x: 100, opacity: 0 },
       whileInView: { x: 0, opacity: 1 },
-      transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }
+      transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
     },
     {
       img: "/images/services/marketing-collaterals.png",
@@ -191,7 +191,7 @@ export default function App() {
       parallax: ySlow,
       initial: { x: -50, y: 150, opacity: 0 },
       whileInView: { x: 0, y: 0, opacity: 1 },
-      transition: { duration: 1.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }
+      transition: { duration: 1.7, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
     },
     {
       img: "/images/services/specialty-printing.png",
@@ -200,7 +200,7 @@ export default function App() {
       parallax: yFast,
       initial: { scale: 0.95, y: 120, opacity: 0, filter: 'blur(10px)' },
       whileInView: { scale: 1, y: 0, opacity: 1, filter: 'blur(0px)' },
-      transition: { duration: 1.9, ease: [0.16, 1, 0.3, 1], delay: 0.4 }
+      transition: { duration: 1.9, ease: [0.16, 1, 0.3, 1] as any, delay: 0.4 }
     },
     {
       img: "/images/services/corporate-merchandise.png",
@@ -209,7 +209,7 @@ export default function App() {
       parallax: ySlower,
       initial: { y: 180, opacity: 0 },
       whileInView: { y: 0, opacity: 1 },
-      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }
+      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
     }
   ];
 
