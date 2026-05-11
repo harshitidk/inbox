@@ -363,3 +363,386 @@
   }
 
 }
+
+/* Services Section */
+.services {
+  padding: 180px 80px 140px 80px;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 105, 185, 0.25) 0%, transparent 60%),
+              linear-gradient(to bottom, #050505 0%, #00152b 50%, #002952 80%, #0069B9 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.services-title {
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  color: #fff;
+  line-height: 0.95;
+  max-width: 60%;
+  font-family: var(--font-heading);
+}
+
+.services-desc {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  width: 100%;
+  align-items: start;
+  position: relative;
+  z-index: 5;
+}
+
+/* Asymmetrical Grid Offsets */
+.service-parallax-wrapper:nth-child(2) {
+  margin-top: 140px;
+}
+.service-parallax-wrapper:nth-child(3) {
+  margin-top: 70px;
+}
+.service-parallax-wrapper:nth-child(4) {
+  margin-top: -60px;
+}
+.service-parallax-wrapper:nth-child(5) {
+  margin-top: 100px;
+}
+.service-parallax-wrapper:nth-child(6) {
+  margin-top: 30px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  cursor: pointer;
+}
+
+.service-image-container {
+  width: 100%;
+  aspect-ratio: 1.67;
+  border-radius: 12px; /* Smoother luxury corner */
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* very subtle */
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.03);
+}
+
+.service-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.02em;
+  font-family: var(--font-main);
+}
+
+.service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-desc {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  font-family: var(--font-main);
+}
+
+@media (max-width: 1024px) {
+  .services-header {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .services-title {
+    max-width: 100%;
+  }
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 80px 30px;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROCESS SECTION — Pinned Scroll Storytelling
+   ═══════════════════════════════════════════════════════ */
+
+/* Tall container creates the scroll runway */
+.process-scroll-container {
+  position: relative;
+  height: 400vh; /* 3 slides + breathing room */
+}
+
+/* Sticky viewport pins the visible area */
+.process-sticky-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Individual Slides */
+.process-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 60px 80px 100px 80px;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* Illustration Background */
+.process-illustration {
+  position: absolute;
+  top: -5%;
+  left: 0;
+  width: 110%;
+  height: 110%;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-illustration-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+/* Section Label ("HOW WE DO IT") */
+.process-section-label {
+  position: absolute;
+  top: 120px;
+  left: 80px;
+  z-index: 5;
+}
+
+.process-label-text {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Slide Content */
+.process-slide-content {
+  position: relative;
+  z-index: 5;
+  max-width: 860px;
+}
+
+.process-step-number {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+}
+
+.process-slide-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1.05;
+  white-space: pre-line;
+  margin: 0;
+}
+
+.process-slide-desc {
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(213, 237, 255, 0.9);
+  line-height: 1.5;
+  max-width: 860px;
+  margin-top: 24px;
+}
+
+/* ── Progress Tracker ── */
+.process-tracker {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 50vh;
+  min-height: 350px;
+  width: auto;
+  gap: 0;
+}
+
+.process-tracker-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  opacity: 0.35;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-tracker-step[data-active="true"] {
+  opacity: 1;
+}
+
+/* Grow segment connectors to fill remaining space */
+.process-tracker-step:not(:last-child) {
+  flex: 1;
+}
+
+.process-tracker-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.process-tracker-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+.process-tracker-number {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #fff;
+}
+
+.process-tracker-label {
+  font-family: var(--font-main);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Segment connector lines */
+.process-tracker-segment {
+  flex: 1;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-right: 11px; /* Centers under the 24px wide node */
+  margin-top: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.process-tracker-segment-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  transform-origin: top;
+  will-change: transform;
+}
+
+/* ── Process Responsive ── */
+@media (max-width: 1024px) {
+  .process-slide {
+    padding: 50px 50px 120px 50px;
+  }
+  .process-section-label {
+    top: 50px;
+    left: 50px;
+  }
+  .process-tracker {
+    right: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .process-slide {
+    padding: 40px 30px 130px 30px;
+  }
+  .process-section-label {
+    top: 40px;
+    left: 30px;
+  }
+  .process-label-text {
+    font-size: 2rem;
+  }
+  .process-slide-title {
+    font-size: 2.5rem;
+    max-width: 80%;
+  }
+  .process-tracker {
+    right: 30px;
+  }
+  .process-tracker-label {
+    display: none; /* Hide text on mobile, just show numbers and line */
+  }
+}
