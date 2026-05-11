@@ -145,6 +145,47 @@ function ProcessSection() {
   );
 }
 
+const ClientSection = () => {
+  const row1Logos = [
+    '/logos/croma.png', '/logos/d_chica.png', '/logos/faber.png', '/logos/gulf.png', '/logos/hcl.png'
+  ];
+  
+  const row2Logos = [
+    '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/sun_pharma.png', '/logos/venu.png'
+  ];
+
+  return (
+    <section className="client-section">
+      <div className="client-header">
+        <h2 className="client-title">TRUSTED BY INDUSTRY LEADERS</h2>
+        <p className="client-subtitle">Delivering precision and quality to the brands you love.</p>
+      </div>
+      
+      <div className="marquee-wrapper">
+        <div className="marquee-container">
+          <div className="marquee-content row-1">
+            {[...row1Logos, ...row1Logos, ...row1Logos].map((logo, i) => (
+              <div key={i} className="client-logo-card">
+                <img src={logo} alt="Client Logo" className="client-logo" />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="marquee-container" style={{ marginTop: '20px' }}>
+          <div className="marquee-content row-2">
+            {[...row2Logos, ...row2Logos, ...row2Logos].map((logo, i) => (
+              <div key={i} className="client-logo-card">
+                <img src={logo} alt="Client Logo" className="client-logo" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
   const servicesRef = useRef<HTMLElement>(null);
   const { scrollYProgress: servicesScroll } = useScroll({
@@ -319,6 +360,7 @@ export default function App() {
       </motion.section>
 
       <ProcessSection />
+      <ClientSection />
     </main>
   );
 }

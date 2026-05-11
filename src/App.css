@@ -746,3 +746,140 @@
     display: none; /* Hide text on mobile, just show numbers and line */
   }
 }
+
+/* ── Client Section ── */
+.client-section {
+  position: relative;
+  width: 100%;
+  padding: 140px 0 160px;
+  /* Smooth fade from dark green (#003500) into pure black */
+  background: linear-gradient(to bottom, #003500 0%, #000000 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.client-header {
+  text-align: center;
+  margin-bottom: 80px;
+  padding: 0 40px;
+}
+
+.client-title {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.client-subtitle {
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 auto;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Infinite Marquee */
+.marquee-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  padding-right: 80px; /* Acts as the gap after the last element */
+  width: max-content;
+}
+
+.row-1 {
+  animation: scrollLeft 45s linear infinite;
+}
+
+.row-2 {
+  animation: scrollRight 50s linear infinite;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.3333%); }
+}
+
+@keyframes scrollRight {
+  0% { transform: translateX(-33.3333%); }
+  100% { transform: translateX(0); }
+}
+
+.client-logo-card {
+  width: 220px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.client-logo-card:hover {
+  transform: scale(1.05);
+}
+
+.client-logo {
+  max-width: 100%;
+  max-height: 70px;
+  object-fit: contain;
+  /* Make them distinctly solid white */
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.client-logo-card:hover .client-logo {
+  opacity: 1;
+  /* Revert to full original brand colors */
+  filter: brightness(1) invert(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .client-section {
+    padding: 100px 0 120px;
+  }
+  .client-title {
+    font-size: 2.5rem;
+  }
+  .marquee-content {
+    gap: 40px;
+    padding-right: 40px;
+  }
+  .client-logo-card {
+    width: 160px;
+    height: 80px;
+  }
+  .client-logo {
+    max-height: 50px;
+  }
+  .marquee-wrapper {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+}
