@@ -661,8 +661,9 @@ html {
 /* Services Section */
 .services {
   padding: clamp(100px, 12vw, 180px) clamp(30px, 5vw, 80px) clamp(80px, 10vw, 140px);
-  background: radial-gradient(circle at 50% 0%, rgba(0, 105, 185, 0.25) 0%, transparent 60%),
-              linear-gradient(to bottom, #050505 0%, #00152b 50%, #002952 80%, #0069B9 100%);
+  background: radial-gradient(circle at 20% 10%, rgba(0, 101, 183, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 80% 40%, rgba(0, 101, 183, 0.1) 0%, transparent 50%),
+              linear-gradient(to bottom, #050505 0%, #000c1a 30%, #002244 70%, #0065b7 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
