@@ -2,16 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { INSPIRATION_DATA } from './inspirationData';
 
-interface FindInspireProps {
-  onBack: () => void;
-  onOpenQuote: () => void;
-}
-
-export default function FindInspire({ onBack, onOpenQuote }: FindInspireProps) {
+export default function FindInspire() {
   const industries = Object.keys(INSPIRATION_DATA).sort();
   const [activeIndustry, setActiveIndustry] = useState(industries[0]);
   const [images, setImages] = useState<string[]>([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     setImages(INSPIRATION_DATA[activeIndustry] || []);

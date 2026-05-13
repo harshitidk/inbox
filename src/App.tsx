@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, animate, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-import { supabase } from './supabaseClient';
 import './App.css';
 import FindInspire from './FindInspire';
 import About from './About';
@@ -310,73 +309,6 @@ export default function App() {
   const [currentView, setCurrentView] = useState<View>('home');
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const servicesRef = useRef<HTMLElement>(null);
-  
-  const { scrollYProgress: servicesScroll } = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"]
-  });
-
-  const yFast = useTransform(servicesScroll, [0, 1], [120, -120]);
-  const ySlow = useTransform(servicesScroll, [0, 1], [60, -60]);
-  const ySlower = useTransform(servicesScroll, [0, 1], [30, -30]);
-
-  const serviceData = [
-    {
-      img: "/images/services/packaging-boxes.png",
-      title: "Packaging Boxes",
-      desc: "Customized Boxes, Storage Cartons, Paper Bags, Carry Bags",
-      parallax: yFast,
-      initial: { x: -80, y: 100, opacity: 0 },
-      whileInView: { x: 0, y: 0, opacity: 1 },
-      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
-    },
-    {
-      img: "/images/services/labels-stickers.png",
-      title: "Labels, Stickers & Tags",
-      desc: "Product Labels, Personalised Sheet Stickers, Barcode/QR Labels, Price Tags, Hang Tags",
-      parallax: ySlower,
-      initial: { scale: 0.9, opacity: 0, filter: 'blur(15px)' },
-      whileInView: { scale: 1, opacity: 1, filter: 'blur(0px)' },
-      transition: { duration: 2, ease: [0.16, 1, 0.3, 1] as any, delay: 0.3 }
-    },
-    {
-      img: "/images/services/display-signage.png",
-      title: "Display & Signage",
-      desc: "Flex Banners, Standees, Cut-outs, Vinyl Prints with Sunboards",
-      parallax: ySlow,
-      initial: { x: 100, opacity: 0 },
-      whileInView: { x: 0, opacity: 1 },
-      transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
-    },
-    {
-      img: "/images/services/marketing-collaterals.png",
-      title: "Marketing Print Collaterals",
-      desc: "Catalogues, Posters, Vinyl Posters, Tent Cards, Books, Calendars (Wall & Table)",
-      parallax: ySlow,
-      initial: { x: -50, y: 150, opacity: 0 },
-      whileInView: { x: 0, y: 0, opacity: 1 },
-      transition: { duration: 1.7, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
-    },
-    {
-      img: "/images/services/specialty-printing.png",
-      title: "Specialty & Precision Printing",
-      desc: "Vinyl Stickers, Laser Cut Paper Stickers, Laser Cut Vinyl Stickers",
-      parallax: yFast,
-      initial: { scale: 0.95, y: 120, opacity: 0, filter: 'blur(10px)' },
-      whileInView: { scale: 1, y: 0, opacity: 1, filter: 'blur(0px)' },
-      transition: { duration: 1.9, ease: [0.16, 1, 0.3, 1] as any, delay: 0.4 }
-    },
-    {
-      img: "/images/services/corporate-merchandise.png",
-      title: "Corporate Merchandise",
-      desc: "Corporate Gifts, Pens, Diaries, T-Shirts, Jackets, Laptop Bags, Sippers",
-      parallax: ySlower,
-      initial: { y: 180, opacity: 0 },
-      whileInView: { y: 0, opacity: 1 },
-      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
-    }
-  ];
 
   return (
     <>
@@ -493,13 +425,10 @@ export default function App() {
         ) : currentView === 'inspire' ? (
           <FindInspire 
             key="inspire" 
-            onBack={() => { setCurrentView('home'); window.scrollTo(0,0); }} 
-            onOpenQuote={() => setIsQuoteOpen(true)}
           />
         ) : (
           <About 
             key="about"
-            onBack={() => { setCurrentView('home'); window.scrollTo(0,0); }}
             onOpenQuote={() => setIsQuoteOpen(true)}
           />
         )}

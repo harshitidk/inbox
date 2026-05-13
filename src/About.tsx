@@ -2,11 +2,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 interface AboutProps {
-  onBack: () => void;
   onOpenQuote: () => void;
 }
 
-export default function About({ onBack, onOpenQuote }: AboutProps) {
+export default function About({ onOpenQuote }: AboutProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
