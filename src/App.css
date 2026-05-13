@@ -2,6 +2,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Disable smooth scroll on specific pages if needed to fix event lag */
+.inspire-page-active {
+  scroll-behavior: auto !important;
+}
+
 .hero {
   position: relative;
   width: 100%;
@@ -1864,21 +1869,18 @@ html {
   position: fixed;
   top: 80px;
   left: 0;
-  height: calc(100vh - 80px);
-  padding: 60px 0 60px 40px; /* Reduced right padding */
+  padding: 60px 40px;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
   background: transparent;
   /* Allow scroll passthrough */
   pointer-events: none;
-  overflow: visible;
 }
 
 .sidebar-inner {
   pointer-events: auto;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 40px;
+  /* Remove internal scroll to prevent trap */
+  overflow: visible;
 }
 
 .sidebar-label {

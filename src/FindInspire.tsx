@@ -11,6 +11,14 @@ export default function FindInspire() {
     setImages(INSPIRATION_DATA[activeIndustry] || []);
   }, [activeIndustry]);
 
+  useEffect(() => {
+    // Disable smooth scroll on html to fix first-scroll lag
+    document.documentElement.classList.add('inspire-page-active');
+    return () => {
+      document.documentElement.classList.remove('inspire-page-active');
+    };
+  }, []);
+
   return (
     <motion.div 
       className="inspire-page"
