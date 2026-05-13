@@ -1866,17 +1866,22 @@ html {
 .inspire-sidebar {
   width: 320px;
   flex-shrink: 0;
-  position: sticky;
-  top: 100px;
-  padding: 20px 40px;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  height: calc(100vh - 80px);
+  padding: 60px 40px;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
   background: transparent;
+  /* Keep static */
+  overflow: hidden;
+  /* Allow scroll passthrough */
+  pointer-events: none;
 }
 
 .sidebar-inner {
   pointer-events: auto;
-  /* Remove internal scroll to prevent trap */
   overflow: visible;
 }
 
@@ -1933,7 +1938,8 @@ html {
 /* Main Content */
 .inspire-main {
   flex: 1;
-  padding: 0 60px 100px; /* Aligned padding */
+  padding: 0 60px 100px;
+  margin-left: 320px;
 }
 
 .inspire-hero {
