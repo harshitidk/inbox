@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 // Deploy trigger: 2026-05-13T18:02:00
 import { motion, useMotionValue, useTransform, animate, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import './App.css';
 import FindInspire from './FindInspire';
 import About from './About';
@@ -179,7 +180,7 @@ const ClientSection = () => {
   ];
 
   return (
-    <section className="client-section">
+    <section className="client-section" id="clients">
       <div className="client-header">
         <h2 className="client-title">Trusted by industry leaders</h2>
         <p className="client-subtitle">Delivering precision and quality to the brands you love.</p>
@@ -189,8 +190,12 @@ const ClientSection = () => {
         <div className="marquee-container">
           <div className="marquee-content row-1">
             {[...row1Logos, ...row1Logos, ...row1Logos].map((logo, i) => (
-              <div key={i} className="client-logo-card">
-                <img src={logo} alt="Client Logo" className="client-logo" />
+              <div key={i} className={`client-logo-card ${logo.includes('d_chica') ? 'card-d-chica' : ''}`}>
+                <img 
+                  src={logo} 
+                  alt="Client Logo" 
+                  className={`client-logo ${logo.includes('d_chica') ? 'logo-d-chica' : ''}`} 
+                />
               </div>
             ))}
           </div>
@@ -199,8 +204,12 @@ const ClientSection = () => {
         <div className="marquee-container" style={{ marginTop: '20px' }}>
           <div className="marquee-content row-2">
             {[...row2Logos, ...row2Logos, ...row2Logos].map((logo, i) => (
-              <div key={i} className="client-logo-card">
-                <img src={logo} alt="Client Logo" className="client-logo" />
+              <div key={i} className={`client-logo-card ${logo.includes('d_chica') ? 'card-d-chica' : ''}`}>
+                <img 
+                  src={logo} 
+                  alt="Client Logo" 
+                  className={`client-logo ${logo.includes('d_chica') ? 'logo-d-chica' : ''}`} 
+                />
               </div>
             ))}
           </div>
@@ -296,7 +305,7 @@ const Footer = () => {
           viewport={{ once: true, margin: "0%" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="footer-subtitle">The printing packaging company</div>
+          <div className="footer-subtitle">The Printing Packaging Company</div>
           <div className="footer-title-wrapper">
             <h1 className="footer-title">INBOX</h1>
           </div>
@@ -419,10 +428,11 @@ export default function App() {
       <nav className={`navbar ${currentView === 'about' ? 'about-nav' : ''} ${currentView === 'inspire' ? 'inspire-nav' : ''}`}>
         <div className="nav-logo-container" onClick={() => { setCurrentView('home'); setIsMenuOpen(false); window.scrollTo(0,0); }} style={{ cursor: 'pointer' }}>
           <div className="nav-logo">INBOX</div>
-          <div className="nav-logo-subtitle">Printing packaging company</div>
+          <div className="nav-logo-subtitle">Printing Packaging Company</div>
         </div>
         <div className="nav-links">
-          <button className={`nav-link ${currentView === 'home' ? 'active' : ''}`} onClick={() => { setCurrentView('home'); window.scrollTo(0,0); }}>Home</button>
+          <button className={`nav-link ${currentView === 'home' ? 'active' : ''}`} onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</button>
+          <button className="nav-link" onClick={() => { setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>Clients</button>
           <button className={`nav-link ${currentView === 'inspire' ? 'active' : ''}`} onClick={() => { setCurrentView('inspire'); window.scrollTo(0,0); }}>Inspirations</button>
           <button className={`nav-link ${currentView === 'about' ? 'active' : ''}`} onClick={() => { setCurrentView('about'); window.scrollTo(0,0); }}>About</button>
           <button className="nav-cta" onClick={() => setIsQuoteOpen(true)}>Get a quote</button>
@@ -454,16 +464,20 @@ export default function App() {
             </button>
             <div className="mobile-menu-content">
               <div className="mobile-menu-links">
-                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); window.scrollTo(0,0); }}>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                   <span className="menu-num">01</span>
                   <span className="menu-text">Home</span>
                 </button>
-                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('inspire'); window.scrollTo(0,0); }}>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 300); }}>
                   <span className="menu-num">02</span>
+                  <span className="menu-text">Clients</span>
+                </button>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('inspire'); window.scrollTo(0,0); }}>
+                  <span className="menu-num">03</span>
                   <span className="menu-text">Inspirations</span>
                 </button>
                 <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('about'); window.scrollTo(0,0); }}>
-                  <span className="menu-num">03</span>
+                  <span className="menu-num">04</span>
                   <span className="menu-text">About</span>
                 </button>
               </div>
@@ -490,7 +504,7 @@ export default function App() {
                 <div className="hero-overlay"></div>
               </div>
               <div className="hero-content">
-                <h1 className="hero-title">Packaging<br />designed to be felt.</h1>
+                <h1 className="hero-title">Packaging<br />designed to be felt...</h1>
                 
                 <div className="hero-stats">
                   <div className="stat-item">
@@ -509,13 +523,16 @@ export default function App() {
 
                 <div className="hero-cta-wrapper">
                   <button className="hero-cta" onClick={() => setIsQuoteOpen(true)}>
-                    <span className="hero-cta-text">Get a quote</span>
+                    <span className="hero-cta-text">Get a Quote</span>
                     <span className="hero-cta-icon">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.0" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </span>
                   </button>
                   <button className="hero-cta-secondary" onClick={() => { setCurrentView('inspire'); window.scrollTo(0,0); }}>
-                    Find inspirations
+                    <span className="hero-cta-text">Find Inspirations</span>
+                    <span className="hero-cta-icon-secondary">
+                      <Sparkles size={18} strokeWidth={2.0} />
+                    </span>
                   </button>
                 </div>
               </div>

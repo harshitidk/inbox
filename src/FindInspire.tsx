@@ -13,19 +13,31 @@ export default function FindInspire() {
     setImages(INSPIRATION_DATA[activeIndustry] || []);
   }, [activeIndustry]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     // Disable smooth scroll on html to fix first-scroll lag
     document.documentElement.classList.add('inspire-page-active');
     
     if (selectedImage) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     }
 
     return () => {
       document.documentElement.classList.remove('inspire-page-active');
       document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     };
   }, [selectedImage]);
 
@@ -66,7 +78,7 @@ export default function FindInspire() {
         <main className="inspire-main">
           <header className="inspire-hero">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="inspire-breadcrumb"
@@ -75,17 +87,17 @@ export default function FindInspire() {
             </motion.div>
             <motion.h1 
               key={`title-${activeIndustry}`}
-              initial={{ y: 30, opacity: 0 }}
+              initial={isMobile ? { opacity: 1 } : { y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: isMobile ? 0 : 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="inspire-title"
             >
               {activeIndustry}
             </motion.h1>
             <motion.p 
-              initial={{ y: 20, opacity: 0 }}
+              initial={isMobile ? { opacity: 1 } : { y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1 }}
+              transition={{ delay: isMobile ? 0 : 0.2, duration: 1 }}
               className="inspire-subtitle"
             >
               A curated collection of design-forward packaging solutions for the {activeIndustry.toLowerCase()} sector.
@@ -97,11 +109,11 @@ export default function FindInspire() {
               {images.map((src, index) => (
                 <motion.div 
                   key={src}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  transition={{ 
+                  layout={!isMobile}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.95, y: 30 }}
+                  animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+                  exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 10 }}
+                  transition={isMobile ? { duration: 0.2 } : { 
                     duration: 0.8, 
                     delay: (index % 12) * 0.04,
                     ease: [0.16, 1, 0.3, 1] 

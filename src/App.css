@@ -91,7 +91,7 @@ html {
   background: transparent;
   color: #fff;
   border: 1px solid #fff;
-  padding: clamp(10px, 1.5vh, 14px) clamp(20px, 2vw, 28px);
+  padding: clamp(10px, 1.5vh, 14px) clamp(24px, 2vw, 32px);
   font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   font-weight: 600;
   text-transform: none;
@@ -101,8 +101,9 @@ html {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  width: fit-content;
+  width: clamp(220px, 18vw, 300px);
   white-space: nowrap;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
@@ -124,10 +125,20 @@ html {
   border-radius: 50px;
 }
 
-.hero-cta-text, .hero-cta-icon {
+.hero-cta-text {
   position: relative;
   z-index: 2;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.hero-cta-icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  margin-top: 1px; /* Optical centering adjustment */
 }
 
 .hero-cta:hover {
@@ -157,16 +168,38 @@ html {
   font-family: var(--font-main);
   border-radius: 50px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: clamp(220px, 18vw, 300px);
   white-space: nowrap;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-cta-icon-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1px; /* Optical centering adjustment */
 }
 
 .hero-cta-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #fff;
   transform: translateY(-4px);
+}
+
+.hero-cta-secondary:hover .hero-cta-text,
+.hero-cta-secondary:hover .hero-cta-icon-secondary {
+  transform: rotate(15deg) scale(1.1);
+  color: #ffd100;
 }
 
 /* Short laptop screens (e.g. 13" MacBook) */
@@ -267,13 +300,11 @@ html {
     margin-top: 30px !important;
     gap: 12px !important;
   }
-  .hero-cta {
-    padding: 14px 44px !important;
-    font-size: 0.95rem !important;
-  }
-  .hero-cta-secondary {
+  .hero-cta, .hero-cta-secondary {
     padding: 14px 28px !important;
     font-size: 0.95rem !important;
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -364,10 +395,9 @@ html {
   align-items: center;
   z-index: 4000;
   background: linear-gradient(to bottom, 
-    rgba(0, 0, 0, 0.7) 0%, 
-    rgba(0, 0, 0, 0.5) 20%, 
-    rgba(0, 0, 0, 0.3) 45%, 
-    rgba(0, 0, 0, 0.1) 75%, 
+    rgba(0, 0, 0, 0.9) 0%, 
+    rgba(0, 0, 0, 0.7) 30%, 
+    rgba(0, 0, 0, 0.4) 60%, 
     rgba(0, 0, 0, 0) 100%);
 }
 
@@ -448,7 +478,7 @@ html {
 .nav-cta {
   background: #fff;
   color: #000;
-  padding: 12px 24px;
+  padding: 12px 36px;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: none;
@@ -1010,22 +1040,30 @@ html {
 
 .process-tracker-label {
   font-family: var(--font-main);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: none;
+  letter-spacing: 0.05em;
   color: #fff;
   white-space: nowrap;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  text-align: right;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 14px;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Segment connector lines */
 .process-tracker-segment {
-  flex: 1;
-  width: 1px;
+  width: 2px;
+  height: 120px;
   background: rgba(255, 255, 255, 0.15);
-  margin-right: 11px; /* Centers under the 24px wide node */
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin: 8px 0;
   position: relative;
   overflow: hidden;
 }
@@ -1074,7 +1112,9 @@ html {
     right: 30px;
   }
   .process-tracker-label {
-    display: none; /* Hide text on mobile, just show numbers and line */
+    display: block;
+    font-size: 0.65rem;
+    padding: 4px 10px;
   }
 }
 
@@ -1204,7 +1244,10 @@ html {
 }
 
 .client-logo-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
 }
 
 .client-logo {
@@ -1217,10 +1260,24 @@ html {
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.logo-d-chica {
+  opacity: 1 !important;
+  transform: scale(1.6);
+  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.2));
+}
+
+.card-d-chica {
+  width: 280px !important;
+}
+
 .client-logo-card:hover .client-logo {
   opacity: 1;
   /* Revert to full original brand colors */
   filter: brightness(1) invert(0);
+}
+
+.client-logo-card:hover .logo-d-chica {
+  filter: brightness(1) invert(0) drop-shadow(none);
 }
 
 /* Responsive */
@@ -1238,11 +1295,18 @@ html {
     padding: 0 20px;
   }
   .client-logo-card {
-    width: 90px;
-    height: 40px;
+    width: 100px;
+    height: 44px;
+  }
+  .card-d-chica {
+    width: 165px !important;
   }
   .client-logo {
-    max-height: 24px;
+    max-height: 27px;
+  }
+  .logo-d-chica {
+    max-height: 55px !important;
+    transform: scale(1.8);
   }
   .marquee-wrapper {
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
