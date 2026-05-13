@@ -1861,6 +1861,7 @@ html {
 /* Sidebar */
 .inspire-sidebar {
   width: 320px;
+  flex-shrink: 0;
   position: sticky;
   top: 80px;
   padding: 60px 40px;
@@ -1923,7 +1924,6 @@ html {
 .inspire-main {
   flex: 1;
   padding: 80px 60px;
-  margin-left: 320px;
 }
 
 .inspire-hero {
