@@ -376,7 +376,7 @@ const ServicesSection = () => {
   return (
     <section className="services" ref={servicesRef}>
       <div className="services-header">
-        <h2 className="services-title">Services that define quality</h2>
+        <h2 className="services-title">things we do <br /> for you</h2>
         <p className="services-desc">From concept to production, we deliver precision in every print.</p>
       </div>
       <div className="services-grid">
