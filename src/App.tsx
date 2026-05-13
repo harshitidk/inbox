@@ -1,6 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { motion, useMotionValue, useTransform, animate, useScroll, useMotionValueEvent } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useTransform, animate, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import { supabase } from './supabaseClient';
 import './App.css';
+import FindInspire from './FindInspire';
+import About from './About';
+import { QuoteModal, QuoteForm } from './QuoteModalComponent';
+
+type View = 'home' | 'inspire' | 'about';
 
 function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration?: number; delay?: number }) {
   const count = useMotionValue(0);
@@ -49,31 +55,31 @@ function ProcessSection() {
 
   const slides = [
     {
-      title: "Complete\nUnderstanding",
+      title: "Complete\nunderstanding",
       desc: "At Inbox®, we start by understanding your brand, product needs, and usage. With 30+ years of printing and packaging expertise, we align materials, finishes, and timelines before moving to production.",
       bg: "linear-gradient(to bottom, #0065b7, #004981)",
       illustration: "/images/process/complete-understanding.png",
       step: "01"
     },
     {
-      title: "Design &\nProduction",
+      title: "Design &\nproduction",
       desc: "Our in-house team prepares print-ready files and executes precision manufacturing using advanced technology and high-quality materials.",
       bg: "linear-gradient(to bottom, #dca100, #b17300)",
       illustration: "/images/process/design-production.png",
       step: "02"
     },
     {
-      title: "Quality Check\n& Delivery",
+      title: "Quality check\n& delivery",
       desc: "Every finished product undergoes strict quality checks for print accuracy, material strength, and finishing. Once approved, your orders are securely packed and delivered on schedule.",
       bg: "linear-gradient(to bottom, #008221, #003500)",
-      illustration: "/images/process/quality-delivery.png",
+      illustration: "/images/process/quality-delivery-v2.png",
       step: "03"
     }
   ];
 
 
   const slideXValues = [undefined, slide2X, slide3X]; // slide 1 has no transform
-  const trackerLabels = ["Complete Understanding", "Design & Production", "Quality Check & Delivery"];
+  const trackerLabels = ["Complete understanding", "Design & production", "Quality check & delivery"];
 
   return (
     <div className="process-scroll-container" ref={containerRef}>
@@ -101,7 +107,7 @@ function ProcessSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="process-label-text">HOW WE DO IT</span>
+                <span className="process-label-text">How we do it</span>
               </motion.div>
             )}
 
@@ -154,10 +160,28 @@ const ClientSection = () => {
     '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/sun_pharma.png', '/logos/venu.png'
   ];
 
+  const testimonials = [
+    {
+      text: "We've been working with Inbox for a long time now, & honestly, the biggest relief is not having to worry. The quality is consistent & deadlines are met without constant follow-ups.",
+      name: "Amrita Chengappa",
+      company: "SOS Organics"
+    },
+    {
+      text: "We've done multiple bulk orders with Inbox & the output has been just perfect every time. Inbox has always been flexible & quick to adapt, which makes working with them really easy.",
+      name: "Prateek Arora",
+      company: "NSF"
+    },
+    {
+      text: "Finding a print partner you can trust long-term is rare. Inbox has supported our brand across multiple product lines with consistent quality & clear communication!",
+      name: "Yogesh Chaddha",
+      company: "GenPure Zheng Filters"
+    }
+  ];
+
   return (
     <section className="client-section">
       <div className="client-header">
-        <h2 className="client-title">TRUSTED BY INDUSTRY LEADERS</h2>
+        <h2 className="client-title">Trusted by industry leaders</h2>
         <p className="client-subtitle">Delivering precision and quality to the brands you love.</p>
       </div>
       
@@ -182,12 +206,112 @@ const ClientSection = () => {
           </div>
         </div>
       </div>
+
+      <div className="minimal-testimonials-wrapper">
+        <div className="minimal-testimonials-grid">
+          {testimonials.map((t, i) => (
+            <motion.div 
+              key={i} 
+              className="minimal-testimonial"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.8, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="minimal-testimonial-bubble">
+                <p className="minimal-testimonial-text">"{t.text}"</p>
+              </div>
+              <div className="minimal-testimonial-author">
+                <span className="minimal-testimonial-name">{t.name}</span>
+                <span className="minimal-testimonial-company">{t.company}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
 
+const ContactSection = () => {
+  return (
+    <section className="contact-section">
+      <motion.div 
+        className="contact-container"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="contact-info">
+          <h2 className="contact-title">Get in touch</h2>
+          
+          <div className="contact-details">
+            <div className="contact-item">
+              <span className="contact-label">Email:</span>
+              <span className="contact-value">hello@inboxpackaging.com</span>
+            </div>
+            <div className="contact-item">
+              <span className="contact-label">Phone:</span>
+              <span className="contact-value">+1 (800) 123-4567</span>
+            </div>
+            <div className="contact-item">
+              <span className="contact-label">Address:</span>
+              <span className="contact-value">123 Packaging Way, Design District<br/>New York, NY 10001<br/>United States</span>
+            </div>
+          </div>
+
+          <div className="contact-social">
+            <span className="contact-label">Follow us</span>
+            <div className="social-icons">
+              <a href="#" className="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a href="#" className="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a href="#" className="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="contact-form-wrapper">
+          <QuoteForm />
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="footer-section">
+      <div className="footer-glass-container">
+        <motion.div 
+          className="footer-content"
+          initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "0%" }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="footer-subtitle">The printing packaging company</div>
+          <div className="footer-title-wrapper">
+            <h1 className="footer-title">INBOX</h1>
+          </div>
+        </motion.div>
+      </div>
+    </footer>
+  );
+};
+
 export default function App() {
+  const [currentView, setCurrentView] = useState<View>('home');
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const servicesRef = useRef<HTMLElement>(null);
+  
   const { scrollYProgress: servicesScroll } = useScroll({
     target: servicesRef,
     offset: ["start end", "end start"]
@@ -255,112 +379,135 @@ export default function App() {
   ];
 
   return (
-    <main>
-      <nav className="navbar">
-        <div className="nav-logo-container">
+    <>
+      <nav className={`navbar ${currentView === 'about' ? 'about-nav' : ''} ${currentView === 'inspire' ? 'inspire-nav' : ''}`}>
+        <div className="nav-logo-container" onClick={() => { setCurrentView('home'); setIsMenuOpen(false); window.scrollTo(0,0); }} style={{ cursor: 'pointer' }}>
           <div className="nav-logo">INBOX</div>
-          <div className="nav-logo-subtitle">printing packaging company</div>
+          <div className="nav-logo-subtitle">Printing packaging company</div>
         </div>
         <div className="nav-links">
-          <a href="#" className="nav-link">About us</a>
-          <a href="#" className="nav-link">Clients</a>
-          <a href="#" className="nav-link">Process</a>
-          <a href="#" className="nav-link">Inspirations</a>
-          <button className="nav-cta">Get a Quote</button>
+          <button className={`nav-link ${currentView === 'home' ? 'active' : ''}`} onClick={() => { setCurrentView('home'); window.scrollTo(0,0); }}>Home</button>
+          <button className={`nav-link ${currentView === 'inspire' ? 'active' : ''}`} onClick={() => { setCurrentView('inspire'); window.scrollTo(0,0); }}>Inspirations</button>
+          <button className={`nav-link ${currentView === 'about' ? 'active' : ''}`} onClick={() => { setCurrentView('about'); window.scrollTo(0,0); }}>About</button>
+          <button className="nav-cta" onClick={() => setIsQuoteOpen(true)}>Get a quote</button>
         </div>
+
+        {/* Hamburger Toggle */}
+        <button 
+          className={`nav-burger ${isMenuOpen ? 'active' : ''}`} 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <span></span>
+          <span></span>
+        </button>
       </nav>
 
-      <section className="hero">
-        <div className="hero-video-container">
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
-            className="hero-video"
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            className="mobile-menu-overlay"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            <source src="/Assets/inbox-short-film.mp4" type="video/mp4" />
-          </video>
-          <div className="hero-overlay"></div>
-        </div>
+            <button className="mobile-menu-close" onClick={() => setIsMenuOpen(false)}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div className="mobile-menu-content">
+              <div className="mobile-menu-links">
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); window.scrollTo(0,0); }}>
+                  <span className="menu-num">01</span>
+                  <span className="menu-text">Home</span>
+                </button>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('inspire'); window.scrollTo(0,0); }}>
+                  <span className="menu-num">02</span>
+                  <span className="menu-text">Inspirations</span>
+                </button>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('about'); window.scrollTo(0,0); }}>
+                  <span className="menu-num">03</span>
+                  <span className="menu-text">About</span>
+                </button>
+              </div>
+              <button className="mobile-menu-cta" onClick={() => { setIsMenuOpen(false); setIsQuoteOpen(true); }}>Get a quote</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        <div className="hero-content">
-          <div className="hero-text-group">
-            <h1 className="hero-title">
-              Packaging<br />designed to be felt.
-            </h1>
-            <div className="hero-cta-wrapper">
-              <button className="hero-cta">
-                <span className="hero-cta-text">Get a quote</span>
-                <span className="hero-cta-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <div className="hero-stats">
-            <div className="stat-item">
-              <span className="stat-value">
-                <Counter value={30} />+
-              </span>
-              <span className="stat-label">years of experience</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-value">
-                &gt;<Counter value={92} />%
-              </span>
-              <span className="stat-label">satisfaction score</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-value">
-                <Counter value={270} />+
-              </span>
-              <span className="stat-label">clients dealt</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <motion.section ref={servicesRef} className="services" id="work">
-        <motion.div 
-          className="services-header"
-          initial={{ opacity: 0, y: 60, filter: 'blur(12px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <h2 className="services-title">THINGS WE DO<br />FOR YOU</h2>
-          <p className="services-desc">
-            Packaging, printing, and gifting experiences shaped through craftsmanship, materiality, and intentional design.
-          </p>
-        </motion.div>
-        
-        <div className="services-grid">
-          {serviceData.map((item, i) => (
-            <motion.div key={i} style={{ y: item.parallax }} className="service-parallax-wrapper">
-              <motion.div 
-                className="service-card"
-                initial={item.initial}
-                whileInView={item.whileInView}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={item.transition}
-              >
-                <div className="service-image-container">
-                  <img src={item.img} alt={item.title} className="service-image" />
+      <AnimatePresence mode="wait">
+        {currentView === 'home' ? (
+          <motion.main 
+            key="home"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <section className="hero">
+              <div className="hero-video-container">
+                <video autoPlay muted loop playsInline className="hero-video">
+                  <source src="/Assets/inbox-short-film.mp4" type="video/mp4" />
+                </video>
+                <div className="hero-overlay"></div>
+              </div>
+              <div className="hero-content">
+                <h1 className="hero-title">Packaging<br />designed to be felt.</h1>
+                
+                <div className="hero-stats">
+                  <div className="stat-item">
+                    <span className="stat-value"><Counter value={30} />+</span>
+                    <span className="stat-label">years of experience</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-value">&gt;<Counter value={92} />%</span>
+                    <span className="stat-label">satisfaction score</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-value"><Counter value={270} />+</span>
+                    <span className="stat-label">clients dealt</span>
+                  </div>
                 </div>
-                <div className="service-info">
-                  <h3 className="service-name">{item.title}</h3>
-                  <p className="service-desc">{item.desc}</p>
-                </div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
 
-      <ProcessSection />
-      <ClientSection />
-    </main>
+                <div className="hero-cta-wrapper">
+                  <button className="hero-cta" onClick={() => setIsQuoteOpen(true)}>
+                    <span className="hero-cta-text">Get a quote</span>
+                    <span className="hero-cta-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </span>
+                  </button>
+                  <button className="hero-cta-secondary" onClick={() => { setCurrentView('inspire'); window.scrollTo(0,0); }}>
+                    Find inspirations
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <ProcessSection />
+            <ClientSection />
+            <ContactSection />
+            <Footer />
+          </motion.main>
+        ) : currentView === 'inspire' ? (
+          <FindInspire 
+            key="inspire" 
+            onBack={() => { setCurrentView('home'); window.scrollTo(0,0); }} 
+            onOpenQuote={() => setIsQuoteOpen(true)}
+          />
+        ) : (
+          <About 
+            key="about"
+            onBack={() => { setCurrentView('home'); window.scrollTo(0,0); }}
+            onOpenQuote={() => setIsQuoteOpen(true)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isQuoteOpen && <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />}
+      </AnimatePresence>
+    </>
   );
 }

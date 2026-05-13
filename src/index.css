@@ -1,13 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;800&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;700&display=swap');
 
 :root {
   --bg-color: #050505;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
-  --accent-color: #ffd100; /* Reusing the golden yellow from previous context if applicable */
+  --accent-color: #ffd100;
   --overlay-dark: rgba(0, 0, 0, 0.6);
   --font-main: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  --font-hand: 'Caveat', cursive;
+  --bg-paper: #f8f6f2;
 }
 
 * {
