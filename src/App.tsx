@@ -11,8 +11,6 @@ function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
-  const [displayValue, setDisplayValue] = useState(0);
-
   useEffect(() => {
     const controls = animate(count, value, { 
       duration, 
@@ -22,85 +20,8 @@ function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration
     return controls.stop;
   }, [count, value, duration, delay]);
 
-  useMotionValueEvent(rounded, "change", (latest) => {
-    setDisplayValue(latest);
-  });
-
-  return <motion.span>{displayValue}</motion.span>;
+  return <motion.span>{rounded}</motion.span>;
 }
-
-/* ── Services Section (Things we do) ── */
-const ServicesSection = ({ scrollYProgress }: { scrollYProgress: any }) => {
-  const yFast = useTransform(scrollYProgress, [0, 1], [120, -120]);
-  const ySlow = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const ySlower = useTransform(scrollYProgress, [0, 1], [30, -30]);
-
-  const serviceData = [
-    {
-      img: "/images/services/packaging-boxes.png",
-      title: "Packaging Boxes",
-      desc: "Customized Boxes, Storage Cartons, Paper Bags, Carry Bags",
-      parallax: yFast
-    },
-    {
-      img: "/images/services/labels-stickers.png",
-      title: "Labels, Stickers & Tags",
-      desc: "Product Labels, Personalised Sheet Stickers, Barcode/QR Labels, Price Tags, Hang Tags",
-      parallax: ySlower
-    },
-    {
-      img: "/images/services/display-signage.png",
-      title: "Display & Signage",
-      desc: "Flex Banners, Standees, Cut-outs, Vinyl Prints with Sunboards",
-      parallax: ySlow
-    },
-    {
-      img: "/images/services/marketing-collaterals.png",
-      title: "Marketing Print Collaterals",
-      desc: "Catalogues, Posters, Vinyl Posters, Tent Cards, Books, Calendars (Wall & Table)",
-      parallax: ySlow
-    },
-    {
-      img: "/images/services/specialty-printing.png",
-      title: "Specialty & Precision Printing",
-      desc: "Vinyl Stickers, Laser Cut Paper Stickers, Laser Cut Vinyl Stickers",
-      parallax: yFast
-    },
-    {
-      img: "/images/services/corporate-merchandise.png",
-      title: "Corporate Merchandise",
-      desc: "Corporate Gifts, Pens, Diaries, T-Shirts, Jackets, Laptop Bags, Sippers",
-      parallax: ySlower
-    }
-  ];
-
-  return (
-    <section className="services-section">
-      <div className="services-header">
-        <h2 className="services-title">Things we do</h2>
-        <p className="services-subtitle">High-precision printing & packaging solutions for every scale.</p>
-      </div>
-      <div className="services-grid">
-        {serviceData.map((service, i) => (
-          <div key={i} className="service-parallax-wrapper">
-            <motion.div 
-              className="service-card"
-              style={{ y: service.parallax }}
-            >
-              <div className="service-image-container">
-                <img src={service.img} alt={service.title} className="service-image" />
-              </div>
-              <div className="service-info">
-                <h3 className="service-name">{service.title}</h3>
-                <p className="service-desc">{service.desc}</p>
-              </div>
-            </motion.div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
 
 /* ── Process Section (Pinned Scroll Storytelling) ── */
 function ProcessSection() {
@@ -384,16 +305,113 @@ const Footer = () => {
   );
 };
 
+const ServicesSection = () => {
+  const servicesRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: servicesRef,
+    offset: ["start end", "end start"]
+  });
+
+  const yFast = useTransform(scrollYProgress, [0, 1], [120, -120]);
+  const ySlow = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const ySlower = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
+  const serviceData = [
+    {
+      img: "/images/services/packaging-boxes.png",
+      title: "Packaging Boxes",
+      desc: "Customized Boxes, Storage Cartons, Paper Bags, Carry Bags",
+      parallax: yFast,
+      initial: { x: -80, y: 100, opacity: 0 },
+      whileInView: { x: 0, y: 0, opacity: 1 },
+      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
+    },
+    {
+      img: "/images/services/labels-stickers.png",
+      title: "Labels, Stickers & Tags",
+      desc: "Product Labels, Personalised Sheet Stickers, Barcode/QR Labels, Price Tags, Hang Tags",
+      parallax: ySlower,
+      initial: { scale: 0.9, opacity: 0, filter: 'blur(15px)' },
+      whileInView: { scale: 1, opacity: 1, filter: 'blur(0px)' },
+      transition: { duration: 2, ease: [0.16, 1, 0.3, 1] as any, delay: 0.3 }
+    },
+    {
+      img: "/images/services/display-signage.png",
+      title: "Display & Signage",
+      desc: "Flex Banners, Standees, Cut-outs, Vinyl Prints with Sunboards",
+      parallax: ySlow,
+      initial: { x: 100, opacity: 0 },
+      whileInView: { x: 0, opacity: 1 },
+      transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
+    },
+    {
+      img: "/images/services/marketing-collaterals.png",
+      title: "Marketing Print Collaterals",
+      desc: "Catalogues, Posters, Vinyl Posters, Tent Cards, Books, Calendars (Wall & Table)",
+      parallax: ySlow,
+      initial: { x: -50, y: 150, opacity: 0 },
+      whileInView: { x: 0, y: 0, opacity: 1 },
+      transition: { duration: 1.7, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
+    },
+    {
+      img: "/images/services/specialty-printing.png",
+      title: "Specialty & Precision Printing",
+      desc: "Vinyl Stickers, Laser Cut Paper Stickers, Laser Cut Vinyl Stickers",
+      parallax: yFast,
+      initial: { scale: 0.95, y: 120, opacity: 0, filter: 'blur(10px)' },
+      whileInView: { scale: 1, y: 0, opacity: 1, filter: 'blur(0px)' },
+      transition: { duration: 1.9, ease: [0.16, 1, 0.3, 1] as any, delay: 0.4 }
+    },
+    {
+      img: "/images/services/corporate-merchandise.png",
+      title: "Corporate Merchandise",
+      desc: "Corporate Gifts, Pens, Diaries, T-Shirts, Jackets, Laptop Bags, Sippers",
+      parallax: ySlower,
+      initial: { y: 180, opacity: 0 },
+      whileInView: { y: 0, opacity: 1 },
+      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
+    }
+  ];
+
+  return (
+    <section className="services" ref={servicesRef}>
+      <div className="services-header">
+        <h2 className="services-title">Services that define quality</h2>
+        <p className="services-desc">From concept to production, we deliver precision in every print.</p>
+      </div>
+      <div className="services-grid">
+        {serviceData.map((service, index) => (
+          <motion.div 
+            key={index} 
+            className="service-parallax-wrapper"
+            style={{ y: service.parallax }}
+          >
+            <motion.div 
+              className="service-card"
+              initial={service.initial}
+              whileInView={service.whileInView}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={service.transition}
+            >
+              <div className="service-image-container">
+                <img src={service.img} alt={service.title} className="service-image" />
+              </div>
+              <div className="service-info">
+                <h3 className="service-name">{service.title}</h3>
+                <p className="service-desc">{service.desc}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
   const [currentView, setCurrentView] = useState<View>('home');
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  const servicesRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: servicesScroll } = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"]
-  });
 
   return (
     <>
@@ -502,10 +520,7 @@ export default function App() {
               </div>
             </section>
 
-            <div ref={servicesRef as any}>
-              <ServicesSection scrollYProgress={servicesScroll} />
-            </div>
-
+            <ServicesSection />
             <ProcessSection />
             <ClientSection />
             <ContactSection />
