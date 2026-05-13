@@ -7,6 +7,8 @@ export default function FindInspire() {
   const [activeIndustry, setActiveIndustry] = useState(industries[0]);
   const [images, setImages] = useState<string[]>([]);
 
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   useEffect(() => {
     setImages(INSPIRATION_DATA[activeIndustry] || []);
   }, [activeIndustry]);
@@ -14,10 +16,18 @@ export default function FindInspire() {
   useEffect(() => {
     // Disable smooth scroll on html to fix first-scroll lag
     document.documentElement.classList.add('inspire-page-active');
+    
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
     return () => {
       document.documentElement.classList.remove('inspire-page-active');
+      document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [selectedImage]);
 
   return (
     <motion.div 
@@ -97,6 +107,7 @@ export default function FindInspire() {
                     ease: [0.16, 1, 0.3, 1] 
                   }}
                   className="masonry-item"
+                  onClick={() => setSelectedImage(src)}
                 >
                   <div className="image-wrapper">
                     <img 
@@ -124,6 +135,39 @@ export default function FindInspire() {
           )}
         </main>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div 
+            className="lightbox-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div 
+              className="lightbox-content"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="lightbox-close" onClick={() => setSelectedImage(null)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              <img src={selectedImage} alt="Large view" className="lightbox-image" />
+              <div className="lightbox-info">
+                <span className="lightbox-category">{activeIndustry}</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
