@@ -11,6 +11,8 @@ function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
+  const [displayValue, setDisplayValue] = useState(0);
+
   useEffect(() => {
     const controls = animate(count, value, { 
       duration, 
@@ -20,7 +22,11 @@ function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration
     return controls.stop;
   }, [count, value, duration, delay]);
 
-  return <motion.span>{rounded}</motion.span>;
+  useMotionValueEvent(rounded, "change", (latest) => {
+    setDisplayValue(latest);
+  });
+
+  return <motion.span>{displayValue}</motion.span>;
 }
 
 /* ── Process Section (Pinned Scroll Storytelling) ── */
