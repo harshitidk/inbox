@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+// Deploy trigger: 2026-05-13T18:02:00
 import { motion, useMotionValue, useTransform, animate, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import './App.css';
 import FindInspire from './FindInspire';
