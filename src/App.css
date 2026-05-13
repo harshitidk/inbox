@@ -1855,18 +1855,16 @@ html {
 .inspire-layout {
   display: flex;
   padding-top: 80px;
+  min-height: 100vh;
 }
 
 /* Sidebar */
 .inspire-sidebar {
   width: 320px;
-  height: calc(100vh - 80px);
-  position: fixed;
+  position: sticky;
   top: 80px;
-  left: 0;
   padding: 60px 40px;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
-  overflow-y: auto;
   z-index: 10;
   background: transparent;
 }
@@ -2047,12 +2045,14 @@ html {
   .inspire-sidebar {
     width: 100%;
     height: auto;
+    max-height: none;
     position: relative;
     left: auto;
     top: 0;
     padding: 30px 24px;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: visible;
   }
   .inspire-main {
     margin-left: 0;
