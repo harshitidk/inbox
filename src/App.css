@@ -1858,6 +1858,7 @@ html {
   min-height: 100vh;
 }
 
+.inspire-sidebar {
   width: 320px;
   flex-shrink: 0;
   position: fixed;
