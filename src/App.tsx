@@ -495,7 +495,7 @@ export default function App() {
                 <div className="hero-stats">
                   <div className="stat-item">
                     <span className="stat-value"><Counter value={30} />+</span>
-                    <span className="stat-label">years of experience</span>
+                    <span className="stat-label">years of exp.</span>
                   </div>
                   <div className="stat-item">
                     <span className="stat-value">&gt;<Counter value={92} />%</span>
