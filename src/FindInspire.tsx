@@ -49,6 +49,8 @@ export default function FindInspire() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
+
+
       <div className="inspire-orb orb-1"></div>
       <div className="inspire-orb orb-2"></div>
 
@@ -77,14 +79,6 @@ export default function FindInspire() {
         {/* Right Content: Editorial Feed */}
         <main className="inspire-main">
           <header className="inspire-hero">
-            <motion.div
-              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="inspire-breadcrumb"
-            >
-              Editorial Archive / {activeIndustry}
-            </motion.div>
             <motion.h1 
               key={`title-${activeIndustry}`}
               initial={isMobile ? { opacity: 1 } : { y: 30, opacity: 0 }}
@@ -100,24 +94,15 @@ export default function FindInspire() {
               transition={{ delay: isMobile ? 0 : 0.2, duration: 1 }}
               className="inspire-subtitle"
             >
-              A curated collection of design-forward packaging solutions for the {activeIndustry.toLowerCase()} sector.
+              A curated collection of design-forward packaging inspiration for your {activeIndustry === 'PR' ? activeIndustry : activeIndustry.toLowerCase()} brand.
             </motion.p>
           </header>
 
           <div className="masonry-feed">
-            <AnimatePresence mode="popLayout">
-              {images.map((src, index) => (
-                <motion.div 
+            {isMobile ? (
+              images.map((src) => (
+                <div 
                   key={src}
-                  layout={!isMobile}
-                  initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.95, y: 30 }}
-                  animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
-                  exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 10 }}
-                  transition={isMobile ? { duration: 0.2 } : { 
-                    duration: 0.8, 
-                    delay: (index % 12) * 0.04,
-                    ease: [0.16, 1, 0.3, 1] 
-                  }}
                   className="masonry-item"
                   onClick={() => setSelectedImage(src)}
                 >
@@ -131,13 +116,47 @@ export default function FindInspire() {
                       <div className="overlay-content">
                         <span className="image-category">{activeIndustry}</span>
                         <div className="overlay-line"></div>
-                        <span className="image-action">View Project</span>
+                        <span className="image-action">View</span>
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+                </div>
+              ))
+            ) : (
+              <AnimatePresence mode="popLayout">
+                {images.map((src, index) => (
+                  <motion.div 
+                    key={src}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: (index % 12) * 0.04,
+                      ease: [0.16, 1, 0.3, 1] 
+                    }}
+                    className="masonry-item"
+                    onClick={() => setSelectedImage(src)}
+                  >
+                    <div className="image-wrapper">
+                      <img 
+                        src={src} 
+                        alt={`${activeIndustry} Inspiration`} 
+                        loading="lazy"
+                      />
+                      <div className="image-overlay">
+                        <div className="overlay-content">
+                          <span className="image-category">{activeIndustry}</span>
+                          <div className="overlay-line"></div>
+                          <span className="image-action">View</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            )}
           </div>
 
           {images.length === 0 && (
@@ -183,3 +202,4 @@ export default function FindInspire() {
     </motion.div>
   );
 }
+

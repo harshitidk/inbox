@@ -56,7 +56,7 @@ export default function About({ onOpenQuote }: AboutProps) {
             Founder’s Note
           </span>
           <h1 className="hero-headline">
-            Built between <br />
+            <span className="cta-yellow">Built</span> between <br />
             <span className="italic-serif">two worlds.</span>
           </h1>
           <p className="hero-subtext">
@@ -79,7 +79,7 @@ export default function About({ onOpenQuote }: AboutProps) {
         >
           <div className="letter-header">
             <span className="letter-date">Established 1994 / Reimagined 2026</span>
-            <span className="letter-location">Bangalore, India</span>
+            <span className="letter-location">Delhi, India</span>
           </div>
           <div className="letter-body">
             <p className="letter-para first-para">
@@ -88,7 +88,7 @@ export default function About({ onOpenQuote }: AboutProps) {
             </p>
 
             <blockquote className="letter-quote">
-              "I saw the grit of production—the smell of ink, the rhythm of the presses, the precision of a die-cut."
+              <span className="highlight-yellow">"I saw the grit of production—the smell of ink, the rhythm of the presses, the precision of a die-cut."</span>
             </blockquote>
 
             <p className="letter-para">
@@ -127,8 +127,10 @@ export default function About({ onOpenQuote }: AboutProps) {
       {/* Final CTA */}
       <section className="about-cta">
         <div className="cta-content">
-          <h2 className="cta-headline">Let’s create something your customers <span className="italic-serif">remember.</span></h2>
-          <p className="cta-subtext">Your packaging deserves intention. We’re here to help you build it.</p>
+          <h2 className="cta-headline">
+            Let’s <span className="cta-yellow">create</span> something <br />
+            <span className="italic-serif">your customers remember.</span>
+          </h2>
           <button className="cta-button" onClick={onOpenQuote}>
             Start a Conversation
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
