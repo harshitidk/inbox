@@ -1266,17 +1266,17 @@ html {
     padding: 0 20px;
   }
   .client-logo-card {
-    width: 100px;
-    height: 44px;
+    width: 140px;
+    height: 60px;
   }
   .card-d-chica {
-    width: 100px !important;
+    width: 140px !important;
   }
   .client-logo {
-    max-height: 27px;
+    max-height: 38px;
   }
   .logo-d-chica, .logo-holyland {
-    max-height: 27px !important;
+    max-height: 38px !important;
     transform: none !important;
   }
   .marquee-wrapper {
@@ -1784,10 +1784,10 @@ html {
 .footer-glass-container {
   width: 100%;
   max-width: 1800px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 32px;
-  padding: 10px 40px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 40px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1892,8 +1892,8 @@ html {
     padding: 0 20px 20px;
   }
   .footer-glass-container {
-    padding: 60px 20px;
-    border-radius: 20px;
+    padding: 40px 0;
+    border-radius: 0;
   }
   .footer-subtitle {
     font-size: 0.75rem;

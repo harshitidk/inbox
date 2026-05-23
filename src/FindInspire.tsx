@@ -106,15 +106,8 @@ export default function FindInspire() {
             className="masonry-feed"
           >
             {images.map((src, index) => (
-              <motion.div 
+              <div 
                 key={`${activeIndustry}-${src}`}
-                initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: isMobile ? Math.min(index * 0.015, 0.15) : Math.min(index * 0.03, 0.3),
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
                 className="masonry-item"
                 onClick={() => setSelectedImage(src)}
               >
@@ -132,7 +125,7 @@ export default function FindInspire() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
