@@ -105,7 +105,7 @@ export default function FindInspire() {
             transition={{ duration: 0.4 }}
             className="masonry-feed"
           >
-            {images.map((src, index) => (
+            {images.map((src) => (
               <div 
                 key={`${activeIndustry}-${src}`}
                 className="masonry-item"
