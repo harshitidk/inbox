@@ -15,6 +15,9 @@ const Footer = () => {
           <div className="footer-title-wrapper">
             <h1 className="footer-title">INBOX</h1>
           </div>
+          <div className="footer-copyright">
+            &copy; 2026 INBOX. All rights reserved.
+          </div>
 
         </motion.div>
       </div>

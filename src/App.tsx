@@ -149,10 +149,6 @@ function ProcessSection() {
           ))}
         </div>
       </div>
-      {/* Full-height snap sections for mandatory snapping */}
-      <div className="process-snap-point" style={{ height: '100vh', scrollSnapAlign: 'start' }}></div>
-      <div className="process-snap-point" style={{ height: '100vh', scrollSnapAlign: 'start' }}></div>
-      <div className="process-snap-point" style={{ height: '100vh', scrollSnapAlign: 'start' }}></div>
     </div>
   );
 }
@@ -426,7 +422,6 @@ const ServicesSection = () => {
           <motion.div
             key={index}
             className="service-parallax-wrapper"
-            style={{ y: service.parallax }}
           >
             <motion.div
               className="service-card"
@@ -454,15 +449,7 @@ export default function App() {
   const [currentView, setCurrentView] = useState<View>('home');
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  useEffect(() => {
-    if (currentView === 'home') {
-      document.documentElement.classList.add('snapping-enabled');
-    } else {
-      document.documentElement.classList.remove('snapping-enabled');
-    }
-    // Clean up on unmount
-    return () => document.documentElement.classList.remove('snapping-enabled');
-  }, [currentView]);
+
 
   return (
     <>

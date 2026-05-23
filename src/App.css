@@ -1,6 +1,5 @@
 html.snapping-enabled {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 html {
@@ -20,7 +19,6 @@ html {
   align-items: flex-end; /* Bottom */
   justify-content: flex-start; /* Left */
   overflow: hidden;
-  scroll-snap-align: start;
 }
 
 .hero-video-container {
@@ -517,8 +515,8 @@ html {
     font-size: 0.6rem !important;
     letter-spacing: 0.05em !important;
   }
-  .nav-links {
-    display: none !important; /* Hide standard links on mobile */
+  .nav-right-group {
+    display: none !important; /* Hide standard links & CTA button on mobile */
   }
 
   /* Hamburger Button */
@@ -706,7 +704,6 @@ html {
   gap: clamp(60px, 7vw, 100px);
   position: relative;
   overflow: hidden;
-  scroll-snap-align: start;
 }
 
 .services-header {
@@ -749,22 +746,6 @@ html {
   z-index: 5;
 }
 
-/* Asymmetrical Grid Offsets */
-.service-parallax-wrapper:nth-child(2) {
-  margin-top: 140px;
-}
-.service-parallax-wrapper:nth-child(3) {
-  margin-top: 70px;
-}
-.service-parallax-wrapper:nth-child(4) {
-  margin-top: -60px;
-}
-.service-parallax-wrapper:nth-child(5) {
-  margin-top: 100px;
-}
-.service-parallax-wrapper:nth-child(6) {
-  margin-top: 30px;
-}
 
 .service-card {
   display: flex;
@@ -830,11 +811,6 @@ html {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
-  .service-parallax-wrapper:nth-child(2) { margin-top: 80px; }
-  .service-parallax-wrapper:nth-child(3) { margin-top: 40px; }
-  .service-parallax-wrapper:nth-child(4) { margin-top: -30px; }
-  .service-parallax-wrapper:nth-child(5) { margin-top: 60px; }
-  .service-parallax-wrapper:nth-child(6) { margin-top: 20px; }
 }
 
 @media (max-width: 768px) {
@@ -1125,7 +1101,6 @@ html {
   flex-direction: column;
   overflow: hidden;
   z-index: 10;
-  scroll-snap-align: start;
 }
 
 .client-section::before {
@@ -1295,14 +1270,14 @@ html {
     height: 44px;
   }
   .card-d-chica {
-    width: 165px !important;
+    width: 100px !important;
   }
   .client-logo {
     max-height: 27px;
   }
-  .logo-d-chica {
-    max-height: 55px !important;
-    transform: scale(1.4);
+  .logo-d-chica, .logo-holyland {
+    max-height: 27px !important;
+    transform: none !important;
   }
   .marquee-wrapper {
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -1432,7 +1407,6 @@ html {
   justify-content: center;
   z-index: 10;
   overflow: hidden;
-  scroll-snap-align: start;
 }
 
 .contact-section::before {
@@ -1792,7 +1766,6 @@ html {
   display: flex;
   justify-content: center;
   z-index: 10;
-  scroll-snap-align: start;
 }
 
 .footer-section::before {
@@ -1902,6 +1875,16 @@ html {
   background: rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+.footer-copyright {
+  margin-top: 30px;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

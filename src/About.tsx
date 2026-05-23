@@ -83,24 +83,22 @@ export default function About({ onOpenQuote }: AboutProps) {
           </div>
           <div className="letter-body">
             <p className="letter-para first-para">
-              I grew up in two worlds — the manufacturing floor of my father's 30-year-old printing business, 
-              <span className="highlight"> Perfect Fusion</span>, and the fast-moving world of modern startups.
+              I grew up in two worlds: the manufacturing floor of my father's 30-year-old printing business,{' '}
+              <span className="highlight">Perfect Fusion</span>, and the fast-moving world of modern startups by today's new generation.
             </p>
 
-            <blockquote className="letter-quote">
-              <span className="highlight-yellow">"I saw the grit of production—the smell of ink, the rhythm of the presses, the precision of a die-cut."</span>
-            </blockquote>
-
             <p className="letter-para">
-              But I also saw the disconnect. I saw brands that poured their souls into digital products, 
-              spent months on pixels and code, only to have the final physical experience feel like an afterthought. 
+              In my time balancing both, I saw brands that poured their souls into digital products, 
+              spent months on pixels and code, only to have the final physical experience feel like an 'eh'. 
               The package would arrive, and the magic would vanish.
             </p>
 
             <p className="letter-para">
-              Inbox was born to bridge that gap. We didn't want to just be another supplier. 
-              We wanted to be a partner for the dreamers, the founders, and the builders who believe 
-              that the unboxing experience is just as important as the product inside.
+              <strong>
+                <span className="highlight-yellow">
+                  Inbox was born to bridge that gap. We aren't just anyone, we are a partner for the dreamers, the founders, and the builders who believe in their vision, because so do we.
+                </span>
+              </strong>
             </p>
 
             <div className="letter-marginalia">
@@ -108,9 +106,11 @@ export default function About({ onOpenQuote }: AboutProps) {
             </div>
 
             <p className="letter-para">
-              Today, we combine three decades of industrial manufacturing mastery with a modern, 
-              design-forward approach. We understand the technicalities of a 400gsm duplex board 
-              just as well as we understand the emotional weight of a brand’s color palette.
+              Today, we understand the technicalities of a 400gsm duplex board just as well as we understand the emotional weight of a brand’s color palette.
+            </p>
+
+            <p className="letter-para">
+              So, if you've come here, know that you're in the best hands!
             </p>
           </div>
 
