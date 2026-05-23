@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from './supabaseClient';
 
-export const QuoteForm = () => {
+export const QuoteForm = ({ initialQuery = '' }: { initialQuery?: string }) => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -10,6 +10,12 @@ export const QuoteForm = () => {
     query: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  React.useEffect(() => {
+    if (initialQuery) {
+      setFormData(prev => ({ ...prev, query: initialQuery }));
+    }
+  }, [initialQuery]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ export const QuoteForm = () => {
   );
 };
 
-export const QuoteModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+export const QuoteModal = ({ isOpen, onClose, initialQuery = '' }: { isOpen: boolean; onClose: () => void; initialQuery?: string }) => {
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -152,7 +158,7 @@ export const QuoteModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               </div>
 
               <div className="contact-form-wrapper">
-                <QuoteForm />
+                <QuoteForm initialQuery={initialQuery} />
               </div>
             </div>
           </div>

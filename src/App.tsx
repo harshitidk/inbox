@@ -289,9 +289,9 @@ const ClientSection = () => {
   );
 };
 
-const ContactSection = () => {
+const ContactSection = ({ prefilledQuery }: { prefilledQuery?: string }) => {
   return (
-    <section className="contact-section">
+    <section className="contact-section" id="contact">
       <motion.div
         className="contact-container"
         initial={{ opacity: 0, y: 40 }}
@@ -334,7 +334,7 @@ const ContactSection = () => {
         </div>
 
         <div className="contact-form-wrapper">
-          <QuoteForm />
+          <QuoteForm initialQuery={prefilledQuery} />
         </div>
       </motion.div>
     </section>
@@ -343,7 +343,7 @@ const ContactSection = () => {
 
 
 
-const ServicesSection = () => {
+const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) => void }) => {
   const servicesRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: servicesRef,
@@ -429,6 +429,7 @@ const ServicesSection = () => {
               whileInView={service.whileInView}
               viewport={{ once: true, margin: "-10%" }}
               transition={service.transition}
+              onClick={() => onServiceClick(service)}
             >
               <div className="service-image-container">
                 <img src={service.img} alt={service.title} className="service-image" />
@@ -449,7 +450,22 @@ export default function App() {
   const [currentView, setCurrentView] = useState<View>('home');
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string } | null>(null);
+  const [prefilledQuery, setPrefilledQuery] = useState('');
 
+  const handleGetInTouch = (serviceTitle: string, subServicesList: string) => {
+    const query = `Hi Inbox team, I am interested in your services for "${serviceTitle}", specifically regarding: ${subServicesList}. Please get in touch with me to discuss my requirements.`;
+    setPrefilledQuery(query);
+    setSelectedService(null);
+    setCurrentView('home');
+    
+    setTimeout(() => {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   return (
     <>
@@ -512,10 +528,10 @@ export default function App() {
               </div>
             </section>
 
-            <ServicesSection />
+            <ServicesSection onServiceClick={(service) => setSelectedService(service)} />
             <ProcessSection />
             <ClientSection />
-            <ContactSection />
+            <ContactSection prefilledQuery={prefilledQuery} />
 
           </motion.main>
         ) : currentView === 'inspire' ? (
@@ -531,9 +547,114 @@ export default function App() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {isQuoteOpen && <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />}
+        {isQuoteOpen && <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} initialQuery={prefilledQuery} />}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceModal
+            isOpen={!!selectedService}
+            service={selectedService}
+            onClose={() => setSelectedService(null)}
+            onGetInTouch={handleGetInTouch}
+          />
+        )}
+      </AnimatePresence>
+
       {currentView !== 'about' && <Footer />}
     </>
+  );
+}
+
+/* ── Service Details Modal Component ── */
+interface ServiceModalProps {
+  isOpen: boolean;
+  service: { img: string; title: string; desc: string } | null;
+  onClose: () => void;
+  onGetInTouch: (serviceTitle: string, subServicesList: string) => void;
+}
+
+function ServiceModal({ isOpen, service, onClose, onGetInTouch }: ServiceModalProps) {
+  useEffect(() => {
+    if (isOpen && service) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, service]);
+
+  if (!service) return null;
+
+  const subServices = service.desc.split(',').map(item => item.trim());
+
+  return (
+    <motion.div
+      className="service-modal-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="service-modal-content"
+        initial={{ scale: 0.9, y: 30, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.9, y: 30, opacity: 0 }}
+        transition={{ type: "spring", damping: 25, stiffness: 350 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="service-modal-close" onClick={onClose} aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <div className="service-modal-grid">
+          <div className="service-modal-image-wrapper">
+            <img src={service.img} alt={service.title} className="service-modal-img" />
+            <div className="service-modal-image-overlay"></div>
+          </div>
+
+          <div className="service-modal-details">
+            <div className="service-modal-category">OUR EXPERTISE</div>
+            <h2 className="service-modal-title">{service.title}</h2>
+            <p className="service-modal-intro">
+              Explore our premium, customized solutions engineered with exceptional precision and luxury craftsmanship:
+            </p>
+
+            <div className="sub-services-grid">
+              {subServices.map((sub, index) => (
+                <motion.div
+                  key={index}
+                  className="sub-service-card"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + index * 0.04, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <div className="sub-service-icon">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </div>
+                  <span className="sub-service-name">{sub}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="service-modal-actions">
+              <button 
+                className="service-modal-cta" 
+                onClick={() => onGetInTouch(service.title, service.desc)}
+              >
+                <span className="service-modal-cta-text">Get in touch</span>
+                <span className="service-modal-cta-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
