@@ -109,7 +109,7 @@ function ProcessSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="process-label-text">How We Do It</span>
+                <span className="process-label-text">How We <span className="cta-yellow">Do It</span></span>
               </motion.div>
             )}
 
@@ -242,7 +242,7 @@ const ClientSection = () => {
   return (
     <section className="client-section" id="clients">
       <div className="client-header">
-        <h2 className="client-title">Trusted by Industry Leaders</h2>
+        <h2 className="client-title"><span className="cta-yellow">Trusted by</span> Industry Leaders</h2>
         <p className="client-subtitle">Delivering precision and quality to brands across industries.</p>
       </div>
 
@@ -300,7 +300,7 @@ const ContactSection = ({ prefilledQuery }: { prefilledQuery?: string }) => {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="contact-info">
-          <h2 className="contact-title">Get In Touch</h2>
+          <h2 className="contact-title"><span className="cta-yellow">Get In</span> Touch</h2>
 
           <div className="contact-details">
             <div className="contact-item">
@@ -413,8 +413,9 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
 
   return (
     <section className="services" ref={servicesRef}>
+      <div className="paper-texture-overlay"></div>
       <div className="services-header">
-        <h2 className="services-title">Things We Do <br /> For You</h2>
+        <h2 className="services-title">Things We Do <br /> <span className="cta-yellow">For You</span></h2>
         <p className="services-desc">From concept to production, we deliver precision in every print.</p>
       </div>
       <div className="services-grid">

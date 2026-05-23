@@ -98,66 +98,43 @@ export default function FindInspire() {
             </motion.p>
           </header>
 
-          <div className="masonry-feed">
-            {isMobile ? (
-              images.map((src) => (
-                <div 
-                  key={src}
-                  className="masonry-item"
-                  onClick={() => setSelectedImage(src)}
-                >
-                  <div className="image-wrapper">
-                    <img 
-                      src={src} 
-                      alt={`${activeIndustry} Inspiration`} 
-                      loading="lazy"
-                    />
-                    <div className="image-overlay">
-                      <div className="overlay-content">
-                        <span className="image-category">{activeIndustry}</span>
-                        <div className="overlay-line"></div>
-                        <span className="image-action">View</span>
-                      </div>
+          <motion.div 
+            key={activeIndustry}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="masonry-feed"
+          >
+            {images.map((src, index) => (
+              <motion.div 
+                key={`${activeIndustry}-${src}`}
+                initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: isMobile ? Math.min(index * 0.015, 0.15) : Math.min(index * 0.03, 0.3),
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                className="masonry-item"
+                onClick={() => setSelectedImage(src)}
+              >
+                <div className="image-wrapper">
+                  <img 
+                    src={src} 
+                    alt={`${activeIndustry} Inspiration`} 
+                    loading="lazy"
+                  />
+                  <div className="image-overlay">
+                    <div className="overlay-content">
+                      <span className="image-category">{activeIndustry}</span>
+                      <div className="overlay-line"></div>
+                      <span className="image-action">View</span>
                     </div>
                   </div>
                 </div>
-              ))
-            ) : (
-              <AnimatePresence mode="popLayout">
-                {images.map((src, index) => (
-                  <motion.div 
-                    key={src}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    transition={{ 
-                      duration: 0.8, 
-                      delay: (index % 12) * 0.04,
-                      ease: [0.16, 1, 0.3, 1] 
-                    }}
-                    className="masonry-item"
-                    onClick={() => setSelectedImage(src)}
-                  >
-                    <div className="image-wrapper">
-                      <img 
-                        src={src} 
-                        alt={`${activeIndustry} Inspiration`} 
-                        loading="lazy"
-                      />
-                      <div className="image-overlay">
-                        <div className="overlay-content">
-                          <span className="image-category">{activeIndustry}</span>
-                          <div className="overlay-line"></div>
-                          <span className="image-action">View</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            )}
-          </div>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {images.length === 0 && (
             <div className="no-images">
