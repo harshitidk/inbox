@@ -65,6 +65,65 @@ export default function About({ onOpenQuote }: AboutProps) {
           </p>
         </div>
         
+        <div className="hero-polaroids-wrapper">
+          <motion.div 
+            className="polaroid-frame polaroid-left"
+            initial={{ rotate: -8, y: 30, opacity: 0 }}
+            animate={{ rotate: -5, y: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+          >
+            <motion.div
+               animate={{ y: [-2, 2, -2], rotate: [-0.5, 0.5, -0.5] }}
+               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+               className="polaroid-inner"
+            >
+              <div className="tape tape-top"></div>
+              <div className="polaroid-image-container">
+                <img src="/Assets/founder1.jpg" alt="Founder 1" />
+                <div className="polaroid-overlay"></div>
+              </div>
+              <div className="polaroid-caption">
+                <span className="handwritten">Vision</span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            className="polaroid-frame polaroid-right"
+            initial={{ rotate: 8, y: 50, opacity: 0 }}
+            animate={{ rotate: 6, y: 20, opacity: 1 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
+          >
+            <motion.div
+               animate={{ y: [2, -2, 2], rotate: [0.5, -0.5, 0.5] }}
+               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+               className="polaroid-inner"
+            >
+              <div className="tape tape-top-right"></div>
+              <div className="polaroid-image-container">
+                <img src="/Assets/founder2.jpg" alt="Founder 2" />
+                <div className="polaroid-overlay"></div>
+              </div>
+              <div className="polaroid-caption">
+                <span className="handwritten">Execution</span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Decorative accents */}
+          <motion.div 
+            className="polaroid-accent-text"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 1 }}
+          >
+            <span className="handwritten-large">Precision meets soul.</span>
+            <svg className="accent-doodle" viewBox="0 0 100 100" fill="none">
+              <path d="M10 50 Q 30 10 50 50 T 90 50" stroke="#0065b7" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </motion.div>
+        </div>
+
         <div className="scroll-indicator">
           <div className="mouse"></div>
           <span>Scroll to read</span>
@@ -122,6 +181,7 @@ export default function About({ onOpenQuote }: AboutProps) {
           </div>
         </motion.div>
       </section>
+
 
 
       {/* Final CTA */}

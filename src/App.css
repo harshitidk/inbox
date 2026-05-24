@@ -2540,6 +2540,8 @@ html {
 
 .hero-inner {
   pointer-events: auto;
+  position: relative;
+  z-index: 10;
 }
 
 /* Spacer to allow the fixed hero to be "scrolled" */
@@ -3085,6 +3087,162 @@ html {
     width: 36px;
     height: 36px;
     background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ── Polaroid Founders Section ── */
+.hero-polaroids-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw;
+  z-index: 0; /* Behind text */
+}
+
+.polaroid-wrapper {
+  /* Deprecated, keeping just in case */
+  display: none;
+}
+
+.polaroid-frame {
+  position: relative;
+  background: #fdfcf9;
+  padding: 16px 16px 60px 16px;
+  border-radius: 2px;
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.15),
+    0 5px 15px rgba(0,0,0,0.05),
+    inset 0 0 20px rgba(255,248,220,0.2);
+  width: clamp(250px, 30vw, 350px);
+  z-index: 2;
+  filter: sepia(0.02) contrast(0.98);
+}
+
+.polaroid-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.polaroid-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #111;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.polaroid-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.95) saturate(0.9);
+}
+
+.polaroid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.15;
+  pointer-events: none;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+}
+
+.polaroid-caption {
+  position: absolute;
+  bottom: -45px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.polaroid-caption .handwritten {
+  font-size: 1.8rem;
+  color: #333;
+  opacity: 0.9;
+}
+
+/* Tape Details */
+.tape {
+  position: absolute;
+  width: 100px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  backdrop-filter: blur(2px) contrast(0.9);
+  z-index: 10;
+  border-radius: 2px;
+}
+
+.tape::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.2;
+}
+
+.tape-top {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.tape-top-right {
+  top: -12px;
+  right: 10%;
+  transform: rotate(4deg);
+  width: 80px;
+}
+
+/* Accent text */
+.polaroid-accent-text {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.handwritten-large {
+  font-family: var(--font-hand);
+  font-size: 2.5rem;
+  color: #0065b7;
+  transform: rotate(-10deg);
+}
+
+.accent-doodle {
+  width: 80px;
+  height: 40px;
+  margin-top: -10px;
+  transform: rotate(5deg);
+}
+
+/* Adjustments for overlapping */
+.polaroid-right {
+  z-index: 3;
+}
+
+@media (max-width: 768px) {
+  .hero-polaroids-wrapper {
+    display: none; /* Hide polaroids on mobile hero to prevent crowding the text, or reposition them */
   }
 }
 
