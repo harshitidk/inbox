@@ -65,17 +65,17 @@ const Navbar: React.FC<NavbarProps> = ({
                   <span className="menu-num">01</span>
                   <span className="menu-text">Home</span>
                 </button>
-                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 300); }}>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('about'); window.scrollTo(0,0); }}>
                   <span className="menu-num">02</span>
+                  <span className="menu-text">About</span>
+                </button>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 300); }}>
+                  <span className="menu-num">03</span>
                   <span className="menu-text">Clients</span>
                 </button>
                 <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('inspire'); window.scrollTo(0,0); }}>
-                  <span className="menu-num">03</span>
-                  <span className="menu-text">Inspirations</span>
-                </button>
-                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('about'); window.scrollTo(0,0); }}>
                   <span className="menu-num">04</span>
-                  <span className="menu-text">About</span>
+                  <span className="menu-text">Inspirations</span>
                 </button>
               </div>
 
