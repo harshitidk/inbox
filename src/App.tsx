@@ -72,7 +72,7 @@ function ProcessSection() {
     },
     {
       title: "Quality Check\n& Delivery",
-      desc: "Every finished product undergoes strict quality checks for print accuracy, material strength, and finishing. Once approved, your orders are securely packed and delivered on schedule.",
+      desc: "Every finished product undergoes strict quality checks for print accuracy, material strength, and finishing.\nOnce approved, your orders are securely packed and delivered on schedule.",
       bg: "linear-gradient(to bottom, #008221, #003500)",
       illustration: "/Assets/process/quality-delivery-v4.png?v=4",
       step: "03"
