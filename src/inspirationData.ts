@@ -97,7 +97,6 @@ export const INSPIRATION_DATA: Record<string, string[]> = {
   ],
   "Perfumes": [
     "/Assets/inspiration/Perfumes/download (1).jpg",
-    "/Assets/inspiration/Perfumes/Belgische primeur_ ontdek Moksi + exclusieve korting_Lees hier onze nieuwsbrief_ https___wix_to_LbLC7Qn.jpg",
     "/Assets/inspiration/Perfumes/Perfume Fino.jpg",
     "/Assets/inspiration/Perfumes/download.jpg",
     "/Assets/inspiration/Perfumes/Pin on small business plan _ Luxury packaging design, Perfume packaging, Cosmetic packaging design.jpg",

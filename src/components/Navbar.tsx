@@ -18,6 +18,16 @@ const Navbar: React.FC<NavbarProps> = ({
   isMenuOpen,
   setIsMenuOpen
 }) => {
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setIsMenuOpen]);
+
   return (
     <>
       <nav className={`navbar ${currentView === 'about' ? 'about-nav' : ''} ${currentView === 'inspire' ? 'inspire-nav' : ''}`}>
