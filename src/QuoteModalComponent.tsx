@@ -89,7 +89,7 @@ export const QuoteForm = ({ initialQuery = '' }: { initialQuery?: string }) => {
         className={`contact-submit ${status}`}
         disabled={status === 'loading' || status === 'success'}
       >
-        {status === 'loading' ? 'Sending...' : status === 'success' ? 'Message sent!' : status === 'error' ? 'Try again' : 'Start Your Journey'}
+        {status === 'loading' ? 'Sending...' : status === 'success' ? 'Message sent!' : status === 'error' ? 'Try again' : 'Submit'}
       </button>
       {status === 'success' && <p className="form-message success">Thank you! We'll get back to you soon.</p>}
       {status === 'error' && <p className="form-message error">Something went wrong. Please try again.</p>}
