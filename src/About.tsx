@@ -197,7 +197,7 @@ export default function About({ onOpenQuote }: AboutProps) {
           </button>
         </div>
         <div className="cta-footer">
-          <div className="footer-mark">INBOX® ARCHIVAL SERIES // 2026</div>
+          <div className="footer-mark">INBOX ARCHIVAL SERIES // 2026</div>
         </div>
       </section>
     </div>

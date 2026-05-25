@@ -58,7 +58,7 @@ function ProcessSection() {
   const slides = [
     {
       title: "Complete\nUnderstanding",
-      desc: "At Inbox®, we start by understanding your brand, product needs, and usage. With 30+ years of printing and packaging expertise, we align materials, finishes, and timelines before moving to production.",
+      desc: "At Inbox, we start by understanding your brand, product needs, and usage. With 30+ years of printing and packaging expertise, we align materials, finishes, and timelines before moving to production.",
       bg: "linear-gradient(to bottom, #0065b7, #004981)",
       illustration: "/images/process/complete-understanding.png",
       step: "01"
