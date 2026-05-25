@@ -159,11 +159,6 @@ export default function About({ onOpenQuote }: AboutProps) {
                 </span>
               </strong>
             </p>
-
-            <div className="letter-marginalia">
-              <span className="handwritten">Precision meets soul.</span>
-            </div>
-
             <p className="letter-para">
               Today, we understand the technicalities of a 400gsm duplex board just as well as we understand the emotional weight of a brand’s color palette.
             </p>
