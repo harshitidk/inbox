@@ -1319,12 +1319,16 @@ html {
     height: 60px;
   }
   .card-d-chica {
-    width: 140px !important;
+    width: 180px !important;
   }
   .client-logo {
     max-height: 38px;
   }
-  .logo-d-chica, .logo-holyland {
+  .logo-d-chica {
+    max-height: 48px !important;
+    transform: scale(1.25) !important;
+  }
+  .logo-holyland {
     max-height: 38px !important;
     transform: none !important;
   }
