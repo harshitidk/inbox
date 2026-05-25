@@ -2938,7 +2938,7 @@ html {
   padding: clamp(24px, 4.5vh, 48px) clamp(24px, 4vw, 48px); /* Fluid padding based on height/width */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Avoids the flexbox top-overflow cropping bug entirely */
   overflow-y: auto;
   box-sizing: border-box;
 }
