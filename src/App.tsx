@@ -372,7 +372,7 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
       transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
     },
     {
-      img: "/Assets/services/2nd.jpg",
+      img: "/Assets/services/2nd.jpeg",
       title: "Printing",
       desc: "Print essentials that make your brand look sharp, polished, and impossible to ignore.",
       products: [
