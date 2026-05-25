@@ -3094,18 +3094,26 @@ html {
   }
   
   .service-modal-content {
-    max-height: 90vh;
+    height: auto;
+    max-height: 85vh; /* Standard bounded viewport */
+    overflow-y: auto; /* Enable single unified scrollbar on the modal wrapper */
+    display: flex;
+    flex-direction: column;
   }
   
   .service-modal-grid {
-    grid-template-columns: 1fr;
-    max-height: 90vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    overflow: visible; /* Disable inner grid scrolling */
   }
   
   .service-modal-image-wrapper {
-    min-height: 200px;
+    width: 100%;
     height: 200px;
+    min-height: 200px;
+    flex-shrink: 0;
   }
   
   .service-modal-image-overlay {
@@ -3114,6 +3122,10 @@ html {
   
   .service-modal-details {
     padding: 32px 20px;
+    height: auto;
+    overflow: visible; /* Disable inner details scroll */
+    flex-grow: 1;
+    justify-content: flex-start;
   }
   
   .service-modal-title {
@@ -3127,11 +3139,13 @@ html {
   }
   
   .service-modal-close {
+    position: absolute;
     top: 16px;
     right: 16px;
     width: 36px;
     height: 36px;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 20;
   }
 }
 
