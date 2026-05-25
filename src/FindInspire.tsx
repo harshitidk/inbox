@@ -11,6 +11,7 @@ export default function FindInspire() {
 
   useEffect(() => {
     setImages(INSPIRATION_DATA[activeIndustry] || []);
+    window.scrollTo(0, 0);
   }, [activeIndustry]);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -98,13 +99,7 @@ export default function FindInspire() {
             </motion.p>
           </header>
 
-          <motion.div 
-            key={activeIndustry}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="masonry-feed"
-          >
+          <div className="masonry-feed">
             {images.map((src) => (
               <div 
                 key={`${activeIndustry}-${src}`}
@@ -127,7 +122,7 @@ export default function FindInspire() {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
 
           {images.length === 0 && (
             <div className="no-images">
@@ -172,4 +167,3 @@ export default function FindInspire() {
     </motion.div>
   );
 }
-

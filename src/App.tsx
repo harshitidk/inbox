@@ -356,54 +356,100 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
 
   const serviceData = [
     {
-      img: "/images/services/packaging-boxes.png",
-      title: "Packaging Boxes",
-      desc: "Customized Boxes, Storage Cartons, Paper Bags, Carry Bags",
+      img: "/Assets/services/1st.jpg",
+      title: "Packaging",
+      desc: "Premium packaging solutions designed to elevate your product presentation and brand experience.",
+      products: [
+        "Customised Boxes",
+        "Corrugated Boxes",
+        "Rigid Gift Boxes / Hampers",
+        "Paper Bags",
+        "Wrapping Sheets"
+      ],
       parallax: yFast,
       initial: { x: -80, y: 100, opacity: 0 },
       whileInView: { x: 0, y: 0, opacity: 1 },
       transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.1 }
     },
     {
-      img: "/images/services/labels-stickers.png",
-      title: "Labels, Stickers & Tags",
-      desc: "Product Labels, Personalised Sheet Stickers, Barcode/QR Labels, Price Tags, Hang Tags",
+      img: "/Assets/services/2nd.jpg",
+      title: "Printing",
+      desc: "Print essentials that make your brand look sharp, polished, and impossible to ignore.",
+      products: [
+        "Labels and Stickers",
+        "Business Cards",
+        "Price and Hang Tags",
+        "Flex Banners / Standees",
+        "Catalogues and Brochures",
+        "Greeting Cards & Envelopes"
+      ],
       parallax: ySlower,
       initial: { scale: 0.9, opacity: 0, filter: 'blur(15px)' },
       whileInView: { scale: 1, opacity: 1, filter: 'blur(0px)' },
       transition: { duration: 2, ease: [0.16, 1, 0.3, 1] as any, delay: 0.3 }
     },
     {
-      img: "/images/services/display-signage.png",
-      title: "Display & Signage",
-      desc: "Flex Banners, Standees, Cut-outs, Vinyl Prints with Sunboards",
+      img: "/Assets/services/3rd.JPG",
+      title: "Packaging Strategy & Consulting",
+      desc: "Smart packaging decisions that make your brand look better, feel premium, and work harder.",
+      products: [
+        "Material Selection",
+        "Size Optimisation",
+        "Cost Optimisation",
+        "Packaging Innovation",
+        "Packaging Re-designing",
+        "Unboxing Experience"
+      ],
       parallax: ySlow,
       initial: { x: 100, opacity: 0 },
       whileInView: { x: 0, opacity: 1 },
       transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
     },
     {
-      img: "/images/services/marketing-collaterals.png",
-      title: "Marketing Print Collaterals",
-      desc: "Catalogues, Posters, Vinyl Posters, Tent Cards, Books, Calendars (Wall & Table)",
+      img: "/Assets/services/4th.png",
+      title: "PR & Influencer Packaging Solutions",
+      desc: "Impactful packaging experiences created specifically for influencer marketing, PR campaigns, and brand launches.",
+      products: [
+        "Custom PR & Influencer Boxes",
+        "Magnetic Lid Rigid Boxes",
+        "Drawer-Style Premium Packaging",
+        "Limited Edition Campaign Packaging",
+        "Unboxing Experience Design",
+        "Brand Storytelling Through Packaging"
+      ],
       parallax: ySlow,
       initial: { x: -50, y: 150, opacity: 0 },
       whileInView: { x: 0, y: 0, opacity: 1 },
       transition: { duration: 1.7, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
     },
     {
-      img: "/images/services/specialty-printing.png",
-      title: "Specialty & Precision Printing",
-      desc: "Vinyl Stickers, Laser Cut Paper Stickers, Laser Cut Vinyl Stickers",
+      img: "/Assets/services/5th.png",
+      title: "Corporate Gifting & Merchandise",
+      desc: "Customized gifting and merchandise solutions that strengthen brand presence and corporate relationships.",
+      products: [
+        "Employee Welcome Kits",
+        "Festive Gift Hampers",
+        "Conference Kits",
+        "Custom Merchandise",
+        "Diaries, Notepads, Pens, Mugs, Bottles, T-Shirts & More"
+      ],
       parallax: yFast,
       initial: { scale: 0.95, y: 120, opacity: 0, filter: 'blur(10px)' },
       whileInView: { scale: 1, y: 0, opacity: 1, filter: 'blur(0px)' },
       transition: { duration: 1.9, ease: [0.16, 1, 0.3, 1] as any, delay: 0.4 }
     },
     {
-      img: "/images/services/corporate-merchandise.png",
-      title: "Corporate Merchandise",
-      desc: "Corporate Gifts, Pens, Diaries, T-Shirts, Jackets, Laptop Bags, Sippers",
+      img: "/Assets/services/6th.JPG",
+      title: "Sustainable Packaging Solutions",
+      desc: "Better-for-the-planet packaging without compromising on looks or quality.",
+      products: [
+        "Sustainable Packaging Consulting",
+        "Eco-Friendly Material Selection",
+        "Recyclable & Reusable Packaging Solutions",
+        "Plastic Reduction Strategies",
+        "Minimal & Low-Waste Packaging Design",
+        "Sustainable Sourcing & Production Guidance"
+      ],
       parallax: ySlower,
       initial: { y: 180, opacity: 0 },
       whileInView: { y: 0, opacity: 1 },
@@ -438,6 +484,13 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
               <div className="service-info">
                 <h3 className="service-name">{service.title}</h3>
                 <p className="service-desc">{service.desc}</p>
+                <div className="service-readmore">
+                  <span>READ MORE</span>
+                  <svg className="readmore-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -451,7 +504,7 @@ export default function App() {
   const [currentView, setCurrentView] = useState<View>('home');
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string } | null>(null);
+  const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string; products: string[] } | null>(null);
   const [prefilledQuery, setPrefilledQuery] = useState('');
 
   const handleGetInTouch = (serviceTitle: string, subServicesList: string) => {
@@ -490,7 +543,7 @@ export default function App() {
             <section className="hero">
               <div className="hero-video-container">
                 <video autoPlay muted loop playsInline className="hero-video">
-                  <source src="/Assets/inbox-short-film.mp4" type="video/mp4" />
+                  <source src="/Assets/inbox-short-film.mp4?v=2" type="video/mp4" />
                 </video>
                 <div className="hero-overlay"></div>
               </div>
@@ -562,7 +615,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {currentView !== 'about' && <Footer />}
+      {currentView !== 'about' && currentView !== 'inspire' && <Footer />}
     </>
   );
 }
@@ -570,7 +623,7 @@ export default function App() {
 /* ── Service Details Modal Component ── */
 interface ServiceModalProps {
   isOpen: boolean;
-  service: { img: string; title: string; desc: string } | null;
+  service: { img: string; title: string; desc: string; products: string[] } | null;
   onClose: () => void;
   onGetInTouch: (serviceTitle: string, subServicesList: string) => void;
 }
@@ -589,7 +642,7 @@ function ServiceModal({ isOpen, service, onClose, onGetInTouch }: ServiceModalPr
 
   if (!service) return null;
 
-  const subServices = service.desc.split(',').map(item => item.trim());
+  const subServices = service.products;
 
   return (
     <motion.div
@@ -645,7 +698,7 @@ function ServiceModal({ isOpen, service, onClose, onGetInTouch }: ServiceModalPr
             <div className="service-modal-actions">
               <button 
                 className="service-modal-cta" 
-                onClick={() => onGetInTouch(service.title, service.desc)}
+                onClick={() => onGetInTouch(service.title, service.products.join(', '))}
               >
                 <span className="service-modal-cta-text">Get in touch</span>
                 <span className="service-modal-cta-icon">
