@@ -2888,7 +2888,7 @@ html {
   position: relative;
   width: 100%;
   max-width: 960px;
-  max-height: 90vh;
+  height: min(650px, 85vh); /* Elegant, bounded responsive height to prevent overflow on smaller viewports */
   background: rgba(10, 15, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
@@ -2910,8 +2910,7 @@ html {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 520px;
-  overflow: hidden;
+  overflow: hidden; /* Takes height from grid cleanly */
 }
 
 .service-modal-img {
@@ -2936,7 +2935,7 @@ html {
 }
 
 .service-modal-details {
-  padding: 48px;
+  padding: clamp(24px, 4.5vh, 48px) clamp(24px, 4vw, 48px); /* Fluid padding based on height/width */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2950,39 +2949,39 @@ html {
   color: var(--accent-color, #ffd100);
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: clamp(6px, 1.2vh, 12px); /* Fluid vertical gap */
 }
 
 .service-modal-title {
-  font-size: 2.25rem;
+  font-size: clamp(1.6rem, 3.8vh, 2.25rem); /* Fluid fluid sizing */
   font-weight: 850;
   color: #fff;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  margin: 0 0 16px 0;
+  margin: 0 0 clamp(8px, 1.5vh, 16px) 0;
   font-family: var(--font-main);
 }
 
 .service-modal-intro {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.7vh, 0.9rem);
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
-  margin: 0 0 32px 0;
+  margin: 0 0 clamp(16px, 3vh, 32px) 0;
   font-weight: 400;
 }
 
 .sub-services-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-bottom: 40px;
+  gap: clamp(10px, 1.8vh, 14px);
+  margin-bottom: clamp(20px, 3.8vh, 40px);
 }
 
 .sub-service-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 18px;
+  padding: clamp(10px, 1.8vh, 14px) clamp(12px, 2vw, 18px);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
@@ -3031,8 +3030,8 @@ html {
   background: var(--accent-color, #ffd100);
   color: #000;
   border: none;
-  padding: 14px 32px;
-  font-size: 0.95rem;
+  padding: clamp(10px, 1.8vh, 14px) clamp(20px, 3vw, 32px);
+  font-size: clamp(0.85rem, 1.8vh, 0.95rem);
   font-weight: 750;
   border-radius: 50px;
   cursor: pointer;
