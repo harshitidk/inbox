@@ -548,7 +548,7 @@ export default function App() {
                 <div className="hero-overlay"></div>
               </div>
               <div className="hero-content">
-                <h1 className="hero-title">Packaging<br />designed to be <span className="italic-serif">felt</span>.</h1>
+                <h1 className="hero-title">Packaging<br />designed to be <span className="italic-serif-bold">felt</span>.</h1>
 
                 <div className="hero-stats">
                   <div className="stat-item">

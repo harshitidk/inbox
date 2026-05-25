@@ -2576,6 +2576,12 @@ html {
   font-weight: 400;
 }
 
+.italic-serif-bold {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 700;
+}
+
 .handwritten {
   font-family: var(--font-hand);
   font-size: 1.5rem;
