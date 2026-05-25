@@ -406,7 +406,7 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
       transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }
     },
     {
-      img: "/Assets/services/4th.png",
+      img: "/Assets/services/4th.jpg",
       title: "PR & Influencer Packaging Solutions",
       desc: "Impactful packaging experiences created specifically for influencer marketing, PR campaigns, and brand launches.",
       products: [
