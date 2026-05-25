@@ -1117,7 +1117,16 @@ html {
     max-width: 80%;
   }
   .process-tracker {
-    right: 30px;
+    right: 16px;
+    top: 30%;
+    transform: translateY(-50%);
+    height: auto;
+    min-height: auto;
+    gap: 4px;
+  }
+  .process-tracker-segment {
+    height: 50px; /* More compact connecting segments on mobile to prevent overlap */
+    margin: 4px 0;
   }
   .process-tracker-label {
     display: block;
@@ -2355,12 +2364,12 @@ html {
 
 .lightbox-close {
   position: absolute;
-  top: -60px;
-  right: 0;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for high contrast */
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   color: #fff;
   display: flex;
@@ -2369,6 +2378,8 @@ html {
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10000;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .lightbox-close:hover {
@@ -2397,13 +2408,13 @@ html {
     padding: 20px;
   }
   .lightbox-close {
-    top: auto;
-    bottom: -60px;
-    right: 50%;
-    transform: translateX(50%);
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
   }
   .lightbox-close:hover {
-    transform: translateX(50%) rotate(90deg);
+    transform: rotate(90deg);
   }
 }
 
