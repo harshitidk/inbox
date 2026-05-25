@@ -775,6 +775,11 @@ html {
   object-position: center 65%;
 }
 
+.services-grid .service-parallax-wrapper:nth-child(2) .service-image {
+  /* Shifts the image content vertically to adjust focus/crop */
+  object-position: center 95%;
+}
+
 .service-card:hover .service-image {
   transform: scale(1.03);
 }
