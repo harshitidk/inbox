@@ -2965,6 +2965,7 @@ html {
   letter-spacing: -0.03em;
   margin: 0 0 clamp(8px, 1.5vh, 16px) 0;
   font-family: var(--font-main);
+  padding-right: 60px; /* Prevent text overlap with absolute close button */
 }
 
 .service-modal-intro {
@@ -3135,6 +3136,7 @@ html {
   
   .service-modal-title {
     font-size: 1.75rem;
+    padding-right: 0;
   }
   
   .sub-services-grid {
