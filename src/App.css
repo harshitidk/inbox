@@ -772,7 +772,7 @@ html {
 
 .services-grid .service-parallax-wrapper:first-child .service-image {
   /* Shifts the image content vertically to adjust focus/crop */
-  object-position: center 38%;
+  object-position: center 65%;
 }
 
 .service-card:hover .service-image {
