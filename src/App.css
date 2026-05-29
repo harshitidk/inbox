@@ -418,23 +418,16 @@ html {
   cursor: pointer;
 }
 
-.nav-logo {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.45rem;
-  letter-spacing: 0.12em;
-  color: var(--text-primary);
-  position: relative;
-  line-height: 1;
+.nav-logo-svg {
+  width: 161px;
+  height: auto;
+  color: #ffffff;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
-.nav-logo-subtitle {
-  font-size: 0.55rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-secondary);
-  opacity: 0.5;
+.nav-logo-container:hover .nav-logo-svg {
+  transform: translateY(-1px) scale(1.015);
+  opacity: 0.92;
 }
 
 .inspire-nav {
@@ -513,12 +506,8 @@ html {
   .navbar {
     padding: 24px 24px;
   }
-  .nav-logo {
-    font-size: 1.65rem !important;
-  }
-  .nav-logo-subtitle {
-    font-size: 0.6rem !important;
-    letter-spacing: 0.05em !important;
+  .nav-logo-svg {
+    width: 119px;
   }
   .nav-right-group {
     display: none !important; /* Hide standard links & CTA button on mobile */
@@ -1875,32 +1864,22 @@ html {
   gap: 20px;
 }
 
-.footer-subtitle {
-  font-family: var(--font-main);
-  font-size: 1rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  text-transform: none;
-  letter-spacing: 0.12em;
-  text-align: center;
-}
-
-.footer-title-wrapper {
+.footer-logo-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 5px;
 }
 
-.footer-title {
-  font-family: var(--font-heading);
-  font-size: clamp(3rem, 5vw, 5rem);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  margin: 0;
-  text-align: center;
-  white-space: nowrap;
+.footer-logo-svg {
+  width: 196px;
+  height: auto;
+  color: #ffffff;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-logo-svg:hover {
+  transform: scale(1.025);
 }
 
 .footer-social {
@@ -1953,12 +1932,8 @@ html {
     padding: 40px 0;
     border-radius: 0;
   }
-  .footer-subtitle {
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-  }
-  .footer-title {
-    font-size: clamp(2.5rem, 8vw, 4rem);
+  .footer-logo-svg {
+    width: 140px;
   }
 }
 
@@ -2851,12 +2826,8 @@ html {
   border-bottom: none;
 }
 
-.about-nav .nav-logo {
+.about-nav .nav-logo-svg {
   color: #ffffff;
-}
-
-.about-nav .nav-logo-subtitle {
-  color: rgba(255, 255, 255, 0.5);
 }
 
 .about-nav .nav-link {

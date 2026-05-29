@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Logo from './Logo';
 
 const Footer = () => {
   return (
@@ -11,9 +12,8 @@ const Footer = () => {
           viewport={{ once: true, margin: "0%" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="footer-subtitle">The Printing Packaging Company</div>
-          <div className="footer-title-wrapper">
-            <h1 className="footer-title">INBOX</h1>
+          <div className="footer-logo-wrapper">
+            <Logo className="footer-logo-svg" style={{ width: '196px' }} />
           </div>
           <div className="footer-copyright">
             &copy; 2026 INBOX. All rights reserved.

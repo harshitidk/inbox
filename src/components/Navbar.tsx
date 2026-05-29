@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from './Logo';
 
 type View = 'home' | 'about' | 'inspire';
 
@@ -32,8 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({
     <>
       <nav className={`navbar ${currentView === 'about' ? 'about-nav' : ''} ${currentView === 'inspire' ? 'inspire-nav' : ''}`}>
         <div className="nav-logo-container" onClick={() => { setCurrentView('home'); setIsMenuOpen(false); window.scrollTo(0,0); }} style={{ cursor: 'pointer' }}>
-          <div className="nav-logo">INBOX</div>
-          <div className="nav-logo-subtitle">Printing Packaging Company</div>
+          <Logo className="nav-logo-svg" style={{ width: '161px' }} />
         </div>
         <div className="nav-right-group">
           <div className="nav-links">
