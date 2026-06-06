@@ -139,7 +139,7 @@ export const QuoteModal = ({ isOpen, onClose, initialQuery = '' }: { isOpen: boo
                   </div>
                   <div className="contact-item">
                     <span className="contact-label">Address:</span>
-                    <span className="contact-value">W-22, Okhla Phase-2,<br/>New Delhi, 110020</span>
+                    <span className="contact-value">W-22, Okhla Phase-2,<br/>New Delhi, 110020 (Perfect Fusion)</span>
                   </div>
                 </div>
 

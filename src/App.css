@@ -1247,12 +1247,6 @@ html {
   transform: scale(1.1);
 }
 
-.card-sun-pharma:hover {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-}
-
 .client-logo {
   max-width: 100%;
   max-height: 70px;
@@ -2688,6 +2682,10 @@ html {
   color: #1a1a1a;
 }
 
+.letter-location {
+  text-align: right;
+}
+
 .letter-body {
   position: relative;
 }
@@ -2845,6 +2843,10 @@ html {
 }
 
 @media (max-width: 768px) {
+  .letter-header {
+    font-size: 0.6rem;
+    margin-bottom: 40px;
+  }
   .letter-container {
     padding: 60px 24px;
   }

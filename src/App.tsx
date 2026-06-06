@@ -196,7 +196,7 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
         style={{ x, display: 'flex', gap: '80px', width: 'max-content' }}
       >
         {[...logos, ...logos].map((logo, i) => (
-          <div key={i} className={`client-logo-card ${logo.includes('d_chica') ? 'card-d-chica' : ''} ${logo.includes('sun_pharma') ? 'card-sun-pharma' : ''} ${logo.includes('holyland') ? 'card-holyland' : ''}`}>
+          <div key={i} className={`client-logo-card ${logo.includes('d_chica') ? 'card-d-chica' : ''} ${logo.includes('holyland') ? 'card-holyland' : ''}`}>
             <img
               src={logo}
               alt="Client Logo"
@@ -215,18 +215,18 @@ const ClientSection = () => {
   ];
 
   const row2Logos = [
-    '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/sun_pharma.png', '/logos/venu.png', '/logos/holyland.png'
+    '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/venu.png', '/logos/holyland.png'
   ];
 
   const testimonials = [
     {
-      text: "We've done multiple bulk orders with Inbox & the output has been just perfect every time. The Team has always been flexible & quick to adapt, which makes working with them really easy.",
-      name: "Prateek Arora",
-      company: "NSF",
+      text: "We've done multiple bulk orders & the output has been just perfect every time. The Team has always been flexible & quick to adapt, which makes working with them really easy.",
+      name: "Amit Gupta",
+      company: "Madhu Instruments",
       rating: 5
     },
     {
-      text: "We've been working with Inbox for a long time now, & honestly, the biggest relief is not having to worry. The quality is consistent & deadlines are met without constant follow-ups.",
+      text: "We've been working for a long time now, & honestly, the biggest relief is not having to worry. The quality is consistent & deadlines are met without constant follow-ups.",
       name: "Amrita Chengappa",
       company: "SOS Organics",
       rating: 4
@@ -313,7 +313,7 @@ const ContactSection = ({ prefilledQuery }: { prefilledQuery?: string }) => {
             </div>
             <div className="contact-item">
               <span className="contact-label">Address:</span>
-              <span className="contact-value">W-22, Okhla Phase-2,<br />New Delhi, 110020</span>
+              <span className="contact-value">W-22, Okhla Phase-2,<br />New Delhi, 110020  (Perfect Fusion)</span>
             </div>
           </div>
 
@@ -506,6 +506,22 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string; products: string[] } | null>(null);
   const [prefilledQuery, setPrefilledQuery] = useState('');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    // Reset scroll at intervals to ensure it lands at the top of the newly mounted page
+    // after the exit animation (600ms) completes.
+    const t1 = setTimeout(() => window.scrollTo(0, 0), 100);
+    const t2 = setTimeout(() => window.scrollTo(0, 0), 300);
+    const t3 = setTimeout(() => window.scrollTo(0, 0), 650);
+    
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [currentView]);
 
   const handleGetInTouch = (serviceTitle: string, subServicesList: string) => {
     const query = `Hi Inbox team, I am interested in your services for "${serviceTitle}", specifically regarding: ${subServicesList}. Please get in touch with me to discuss my requirements.`;

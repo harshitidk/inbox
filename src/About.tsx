@@ -137,8 +137,12 @@ export default function About({ onOpenQuote }: AboutProps) {
           style={{ y: letterY }}
         >
           <div className="letter-header">
-            <span className="letter-date">Established 1994 / Reimagined 2026</span>
-            <span className="letter-location">Delhi, India</span>
+            <span className="letter-date">
+              Established 1994<br />Reimagined 2026
+            </span>
+            <span className="letter-location">
+              Delhi,<br />India
+            </span>
           </div>
           <div className="letter-body">
             <p className="letter-para first-para">
