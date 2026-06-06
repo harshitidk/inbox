@@ -211,11 +211,13 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
 
 const ClientSection = () => {
   const row1Logos = [
-    '/logos/croma.png', '/logos/d_chica.png', '/logos/faber.png', '/logos/gulf.png', '/logos/hcl.png'
+    '/logos/croma.png', '/logos/d_chica.png', '/logos/faber.png', '/logos/gulf.png', '/logos/hcl.png',
+    '/logos/bluestar.png', '/logos/genpure.png', '/logos/habibs.png', '/logos/springboard.png'
   ];
 
   const row2Logos = [
-    '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/venu.png', '/logos/holyland.png'
+    '/logos/india_tv.png', '/logos/milton.png', '/logos/sos_organics.png', '/logos/venu.png', '/logos/holyland.png',
+    '/logos/ITTAC.png', '/logos/MADHU.png', '/logos/NSF.png', '/logos/VGuard.png'
   ];
 
   const testimonials = [
