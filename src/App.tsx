@@ -313,7 +313,7 @@ const ContactSection = ({ prefilledQuery }: { prefilledQuery?: string }) => {
             </div>
             <div className="contact-item">
               <span className="contact-label">Address:</span>
-              <span className="contact-value">W-22, Okhla Phase-2,<br />New Delhi, 110020  (Perfect Fusion)</span>
+              <span className="contact-value">W-22, Okhla Phase-2,<br />New Delhi, 110020 <br /> (Perfect Fusion)</span>
             </div>
           </div>
 
@@ -364,7 +364,8 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
         "Corrugated Boxes",
         "Rigid Gift Boxes / Hampers",
         "Paper Bags",
-        "Wrapping Sheets"
+        "Wrapping Sheets",
+        "Designing/Product Photography"
       ],
       parallax: yFast,
       initial: { x: -80, y: 100, opacity: 0 },
