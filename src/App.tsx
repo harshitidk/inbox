@@ -204,8 +204,9 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
           const isVenu = logo.includes('venu');
           const isSos = logo.includes('sos_organics');
           const isMilton = logo.includes('milton');
+          const isBluestar = logo.includes('bluestar');
           
-          const isInvert = logo.includes('bluestar') || isIttac || isSpringboard;
+          const isInvert = isBluestar || isIttac || isSpringboard;
           
           const imgClasses = [
             'client-logo',
@@ -217,13 +218,15 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
             isIttac && 'logo-ittac',
             isVenu && 'logo-venu',
             isSos && 'logo-sos',
-            isMilton && 'logo-milton'
+            isMilton && 'logo-milton',
+            isBluestar && 'logo-bluestar'
           ].filter(Boolean).join(' ');
 
           const cardClasses = [
             'client-logo-card',
             isDChica && 'card-d-chica',
-            isHolyland && 'card-holyland'
+            isHolyland && 'card-holyland',
+            isBluestar && 'card-bluestar'
           ].filter(Boolean).join(' ');
           
           return (
@@ -243,8 +246,15 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
 
 const ClientSection = () => {
   const row1Logos = [
-    '/logos/croma.png', '/logos/d_chica.png', '/logos/faber.png', '/logos/gulf.png', '/logos/hcl.png',
-    '/logos/bluestar.png', '/logos/genpure.png', '/logos/habibs.png', '/logos/springboard.png'
+    '/logos/croma.png',
+    '/logos/hcl.png',
+    '/logos/bluestar.png?v=2',
+    '/logos/d_chica.png',
+    '/logos/genpure.png',
+    '/logos/faber.png',
+    '/logos/habibs.png',
+    '/logos/gulf.png',
+    '/logos/springboard.png'
   ];
 
   const row2Logos = [
@@ -254,16 +264,16 @@ const ClientSection = () => {
 
   const testimonials = [
     {
-      text: "We've done multiple bulk orders & the output has been just perfect every time. The Team has always been flexible & quick to adapt, which makes working with them really easy.",
+      text: "We've done multiple bulk orders with them & the output has been just perfect every time. The team has always been flexible & quick to adapt, which makes working with them really easy.",
       name: "Amit Gupta",
       company: "Madhu Instruments",
       rating: 5
     },
     {
-      text: "We've been working for a long time now, & honestly, the biggest relief is not having to worry. The quality is consistent & deadlines are met without constant follow-ups.",
+      text: "We've been working with them for a long time now, & honestly, the biggest relief is not having to worry. The quality is consistent & deadlines are met without constant follow-ups.",
       name: "Amrita Chengappa",
       company: "SOS Organics",
-      rating: 4
+      rating: 5
     },
     {
       text: "Finding a print partner you can trust long-term is rare. They have supported our brand across multiple product lines with consistent quality & clear communication!",
@@ -281,8 +291,8 @@ const ClientSection = () => {
       </div>
 
       <div className="marquee-wrapper">
-        <MarqueeRow logos={row1Logos} direction="left" baseSpeed={78} />
-        <MarqueeRow logos={row2Logos} direction="right" baseSpeed={78} />
+        <MarqueeRow logos={row2Logos} direction="left" baseSpeed={78} />
+        <MarqueeRow logos={row1Logos} direction="right" baseSpeed={78} />
       </div>
 
       <div className="minimal-testimonials-wrapper">
@@ -541,42 +551,85 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string; products: string[] } | null>(null);
   const [prefilledQuery, setPrefilledQuery] = useState('');
+  const pendingScrollAnchorRef = useRef<string | null>(null);
+
+  const handleViewChange = (view: View, anchorId?: string) => {
+    if (anchorId) {
+      pendingScrollAnchorRef.current = anchorId;
+    } else {
+      pendingScrollAnchorRef.current = null;
+    }
+    setCurrentView(view);
+    
+    if (anchorId) {
+      setTimeout(() => {
+        const el = document.getElementById(anchorId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    
-    // Reset scroll at intervals to ensure it lands at the top of the newly mounted page
-    // after the exit animation (600ms) completes.
-    const t1 = setTimeout(() => window.scrollTo(0, 0), 100);
-    const t2 = setTimeout(() => window.scrollTo(0, 0), 300);
-    const t3 = setTimeout(() => window.scrollTo(0, 0), 650);
-    
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
+    if (pendingScrollAnchorRef.current) {
+      const anchor = pendingScrollAnchorRef.current;
+      const scrollToAnchor = () => {
+        const el = document.getElementById(anchor);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+
+      scrollToAnchor();
+      const t1 = setTimeout(scrollToAnchor, 100);
+      const t2 = setTimeout(scrollToAnchor, 300);
+      const t3 = setTimeout(scrollToAnchor, 600);
+      const t4 = setTimeout(scrollToAnchor, 850);
+      const t5 = setTimeout(scrollToAnchor, 1100);
+      const t6 = setTimeout(scrollToAnchor, 1350);
+      const t7 = setTimeout(() => {
+        pendingScrollAnchorRef.current = null;
+      }, 1400);
+
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+        clearTimeout(t4);
+        clearTimeout(t5);
+        clearTimeout(t6);
+        clearTimeout(t7);
+      };
+    } else {
+      window.scrollTo(0, 0);
+      
+      // Reset scroll at intervals to ensure it lands at the top of the newly mounted page
+      // after the exit animation (600ms) completes.
+      const t1 = setTimeout(() => window.scrollTo(0, 0), 100);
+      const t2 = setTimeout(() => window.scrollTo(0, 0), 300);
+      const t3 = setTimeout(() => window.scrollTo(0, 0), 650);
+      
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
+    }
   }, [currentView]);
 
   const handleGetInTouch = (serviceTitle: string, subServicesList: string) => {
     const query = `Hi Inbox team, I am interested in your services for "${serviceTitle}", specifically regarding: ${subServicesList}. Please get in touch with me to discuss my requirements.`;
     setPrefilledQuery(query);
     setSelectedService(null);
-    setCurrentView('home');
-    
-    setTimeout(() => {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+    handleViewChange('home', 'contact');
   };
 
   return (
     <>
       <Navbar
         currentView={currentView}
-        setCurrentView={setCurrentView}
+        setCurrentView={handleViewChange}
         setIsQuoteOpen={setIsQuoteOpen}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}

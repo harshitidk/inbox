@@ -6,7 +6,7 @@ type View = 'home' | 'about' | 'inspire';
 
 interface NavbarProps {
   currentView: View;
-  setCurrentView: (view: View) => void;
+  setCurrentView: (view: View, anchorId?: string) => void;
   setIsQuoteOpen: (isOpen: boolean) => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="nav-links">
             <button className={`nav-link ${currentView === 'home' ? 'active' : ''}`} onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</button>
             <button className={`nav-link ${currentView === 'about' ? 'active' : ''}`} onClick={() => { setCurrentView('about'); window.scrollTo(0,0); }}>About</button>
-            <button className="nav-link" onClick={() => { setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>Clients</button>
+            <button className="nav-link" onClick={() => setCurrentView('home', 'clients')}>Clients</button>
             <button className={`nav-link ${currentView === 'inspire' ? 'active' : ''}`} onClick={() => { setCurrentView('inspire'); window.scrollTo(0,0); }}>Inspirations</button>
           </div>
           <button className="nav-cta" onClick={() => setIsQuoteOpen(true)}>Get a Quote</button>
@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <span className="menu-num">02</span>
                   <span className="menu-text">About</span>
                 </button>
-                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); setTimeout(() => { document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }); }, 300); }}>
+                <button className="mobile-menu-link" onClick={() => { setIsMenuOpen(false); setCurrentView('home', 'clients'); }}>
                   <span className="menu-num">03</span>
                   <span className="menu-text">Clients</span>
                 </button>

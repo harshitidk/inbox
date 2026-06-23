@@ -1259,12 +1259,12 @@ html {
 
 .logo-d-chica {
   opacity: 1 !important;
-  transform: scale(1.65) !important;
+  transform: scale(1.8) !important;
   filter: grayscale(1) brightness(5);
 }
 
 .card-d-chica {
-  width: 300px !important;
+  width: 320px !important;
 }
 
 .logo-holyland {
@@ -1312,6 +1312,7 @@ html {
   opacity: 1 !important;
 }
 
+
 .client-logo-card:hover .client-logo {
   opacity: 1;
   /* Revert to full original brand colors */
@@ -1341,14 +1342,14 @@ html {
     height: 60px;
   }
   .card-d-chica {
-    width: 200px !important;
+    width: 220px !important;
   }
   .client-logo {
     max-height: 38px;
   }
   .logo-d-chica {
     max-height: 48px !important;
-    transform: scale(1.5) !important;
+    transform: scale(1.65) !important;
   }
   .logo-holyland {
     max-height: 38px !important;
