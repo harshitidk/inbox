@@ -198,14 +198,15 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
         {[...logos, ...logos].map((logo, i) => {
           const isDChica = logo.includes('d_chica');
           const isHolyland = logo.includes('holyland');
-          const isInvert = logo.includes('bluestar') || logo.includes('ITTAC') || logo.includes('springboard');
+          const isSpringboard = logo.includes('springboard');
+          const isInvert = logo.includes('bluestar') || logo.includes('ITTAC') || isSpringboard;
           
           return (
             <div key={i} className={`client-logo-card ${isDChica ? 'card-d-chica' : ''} ${isHolyland ? 'card-holyland' : ''}`}>
               <img
                 src={logo}
                 alt="Client Logo"
-                className={`client-logo ${isDChica ? 'logo-d-chica' : ''} ${isHolyland ? 'logo-holyland' : ''} ${isInvert ? 'logo-invert' : ''}`}
+                className={`client-logo ${isDChica ? 'logo-d-chica' : ''} ${isHolyland ? 'logo-holyland' : ''} ${isInvert ? 'logo-invert' : ''} ${isSpringboard ? 'logo-springboard' : ''}`}
               />
             </div>
           );

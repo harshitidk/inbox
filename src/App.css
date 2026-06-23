@@ -1278,6 +1278,10 @@ html {
   opacity: 0.8 !important;
 }
 
+.logo-springboard {
+  transform: scale(1.25) !important;
+}
+
 .client-logo-card:hover .logo-holyland {
   filter: none !important;
   opacity: 1 !important;
