@@ -195,15 +195,21 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
         className="marquee-content"
         style={{ x, display: 'flex', gap: '80px', width: 'max-content' }}
       >
-        {[...logos, ...logos].map((logo, i) => (
-          <div key={i} className={`client-logo-card ${logo.includes('d_chica') ? 'card-d-chica' : ''} ${logo.includes('holyland') ? 'card-holyland' : ''}`}>
-            <img
-              src={logo}
-              alt="Client Logo"
-              className={`client-logo ${logo.includes('d_chica') ? 'logo-d-chica' : ''} ${logo.includes('holyland') ? 'logo-holyland' : ''}`}
-            />
-          </div>
-        ))}
+        {[...logos, ...logos].map((logo, i) => {
+          const isDChica = logo.includes('d_chica');
+          const isHolyland = logo.includes('holyland');
+          const isInvert = logo.includes('bluestar') || logo.includes('ITTAC') || logo.includes('springboard');
+          
+          return (
+            <div key={i} className={`client-logo-card ${isDChica ? 'card-d-chica' : ''} ${isHolyland ? 'card-holyland' : ''}`}>
+              <img
+                src={logo}
+                alt="Client Logo"
+                className={`client-logo ${isDChica ? 'logo-d-chica' : ''} ${isHolyland ? 'logo-holyland' : ''} ${isInvert ? 'logo-invert' : ''}`}
+              />
+            </div>
+          );
+        })}
       </motion.div>
     </div>
   );

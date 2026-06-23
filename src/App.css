@@ -1273,7 +1273,17 @@ html {
   transform: scale(1.1);
 }
 
+.logo-invert {
+  filter: grayscale(1) invert(1) contrast(1.5) !important;
+  opacity: 0.8 !important;
+}
+
 .client-logo-card:hover .logo-holyland {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.client-logo-card:hover .logo-invert {
   filter: none !important;
   opacity: 1 !important;
 }
