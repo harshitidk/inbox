@@ -1259,7 +1259,7 @@ html {
 
 .logo-d-chica {
   opacity: 1 !important;
-  transform: scale(1.3);
+  transform: scale(1.45) !important;
   filter: grayscale(1) brightness(5);
 }
 
@@ -1270,7 +1270,7 @@ html {
 .logo-holyland {
   filter: grayscale(1) brightness(1.8) contrast(1.2) !important;
   opacity: 0.7 !important;
-  transform: scale(1.1);
+  transform: scale(1.25) !important;
 }
 
 .logo-invert {
@@ -1279,6 +1279,26 @@ html {
 }
 
 .logo-springboard {
+  transform: scale(1.25) !important;
+}
+
+.logo-gulf {
+  transform: scale(1.3) !important;
+}
+
+.logo-ittac {
+  transform: scale(1.25) !important;
+}
+
+.logo-venu {
+  transform: scale(1.3) !important;
+}
+
+.logo-sos {
+  transform: scale(1.25) !important;
+}
+
+.logo-milton {
   transform: scale(1.25) !important;
 }
 
@@ -1328,11 +1348,11 @@ html {
   }
   .logo-d-chica {
     max-height: 48px !important;
-    transform: scale(1.25) !important;
+    transform: scale(1.35) !important;
   }
   .logo-holyland {
     max-height: 38px !important;
-    transform: none !important;
+    transform: scale(1.15) !important;
   }
   .marquee-wrapper {
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);

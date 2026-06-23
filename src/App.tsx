@@ -199,14 +199,39 @@ const MarqueeRow = ({ logos, direction = 'left', baseSpeed = 40 }: { logos: stri
           const isDChica = logo.includes('d_chica');
           const isHolyland = logo.includes('holyland');
           const isSpringboard = logo.includes('springboard');
-          const isInvert = logo.includes('bluestar') || logo.includes('ITTAC') || isSpringboard;
+          const isGulf = logo.includes('gulf');
+          const isIttac = logo.includes('ITTAC');
+          const isVenu = logo.includes('venu');
+          const isSos = logo.includes('sos_organics');
+          const isMilton = logo.includes('milton');
+          
+          const isInvert = logo.includes('bluestar') || isIttac || isSpringboard;
+          
+          const imgClasses = [
+            'client-logo',
+            isDChica && 'logo-d-chica',
+            isHolyland && 'logo-holyland',
+            isInvert && 'logo-invert',
+            isSpringboard && 'logo-springboard',
+            isGulf && 'logo-gulf',
+            isIttac && 'logo-ittac',
+            isVenu && 'logo-venu',
+            isSos && 'logo-sos',
+            isMilton && 'logo-milton'
+          ].filter(Boolean).join(' ');
+
+          const cardClasses = [
+            'client-logo-card',
+            isDChica && 'card-d-chica',
+            isHolyland && 'card-holyland'
+          ].filter(Boolean).join(' ');
           
           return (
-            <div key={i} className={`client-logo-card ${isDChica ? 'card-d-chica' : ''} ${isHolyland ? 'card-holyland' : ''}`}>
+            <div key={i} className={cardClasses}>
               <img
                 src={logo}
                 alt="Client Logo"
-                className={`client-logo ${isDChica ? 'logo-d-chica' : ''} ${isHolyland ? 'logo-holyland' : ''} ${isInvert ? 'logo-invert' : ''} ${isSpringboard ? 'logo-springboard' : ''}`}
+                className={imgClasses}
               />
             </div>
           );
