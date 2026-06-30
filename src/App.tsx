@@ -7,8 +7,9 @@ import About from './About';
 import { QuoteModal, QuoteForm } from './QuoteModalComponent';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Admin from './Admin';
 
-type View = 'home' | 'inspire' | 'about';
+type View = 'home' | 'inspire' | 'about' | 'admin';
 
 function Counter({ value, duration = 2, delay = 0.9 }: { value: number; duration?: number; delay?: number }) {
   const count = useMotionValue(0);
@@ -627,13 +628,15 @@ export default function App() {
 
   return (
     <>
-      <Navbar
-        currentView={currentView}
-        setCurrentView={handleViewChange}
-        setIsQuoteOpen={setIsQuoteOpen}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
+      {currentView !== 'admin' && (
+        <Navbar
+          currentView={currentView}
+          setCurrentView={handleViewChange}
+          setIsQuoteOpen={setIsQuoteOpen}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+      )}
 
       <AnimatePresence mode="wait">
         {currentView === 'home' ? (
@@ -696,10 +699,15 @@ export default function App() {
           <FindInspire
             key="inspire"
           />
-        ) : (
+        ) : currentView === 'about' ? (
           <About
             key="about"
             onOpenQuote={() => setIsQuoteOpen(true)}
+          />
+        ) : (
+          <Admin
+            key="admin"
+            onBackToApp={() => handleViewChange('home')}
           />
         )}
       </AnimatePresence>
@@ -719,7 +727,9 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {currentView !== 'about' && currentView !== 'inspire' && <Footer />}
+      {currentView !== 'about' && currentView !== 'inspire' && currentView !== 'admin' && (
+        <Footer onAdminClick={() => handleViewChange('admin')} />
+      )}
     </>
   );
 }

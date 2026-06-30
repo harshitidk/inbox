@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 
-type View = 'home' | 'about' | 'inspire';
+type View = 'home' | 'about' | 'inspire' | 'admin';
 
 interface NavbarProps {
   currentView: View;

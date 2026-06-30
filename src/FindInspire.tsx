@@ -1,18 +1,68 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { INSPIRATION_DATA } from './inspirationData';
+import { supabase } from './supabaseClient';
 
 export default function FindInspire() {
-  const industries = Object.keys(INSPIRATION_DATA).sort();
+  const [industries, setIndustries] = useState<string[]>(Object.keys(INSPIRATION_DATA).sort());
   const [activeIndustry, setActiveIndustry] = useState(industries[0]);
   const [images, setImages] = useState<string[]>([]);
+  const [dbInspirations, setDbInspirations] = useState<Record<string, string[]>>({});
+  const [loading, setLoading] = useState(true);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    setImages(INSPIRATION_DATA[activeIndustry] || []);
+    async function fetchInspirations() {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('inspirations')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          // Group by category
+          const grouped = data.reduce((acc, item) => {
+            const cat = item.category;
+            if (!acc[cat]) {
+              acc[cat] = [];
+            }
+            acc[cat].push(item.image_url);
+            return acc;
+          }, {} as Record<string, string[]>);
+
+          setDbInspirations(grouped);
+          
+          const sortedCats = Object.keys(grouped).sort();
+          setIndustries(sortedCats);
+          // Set active category to the first one or maintain selection if it exists in the new list
+          if (sortedCats.length > 0) {
+            setActiveIndustry((prev) => sortedCats.includes(prev) ? prev : sortedCats[0]);
+          }
+        } else {
+          // No data in DB, use static fallback
+          setDbInspirations(INSPIRATION_DATA);
+          setIndustries(Object.keys(INSPIRATION_DATA).sort());
+        }
+      } catch (err) {
+        console.error('Error fetching inspirations from database, using static fallback:', err);
+        setDbInspirations(INSPIRATION_DATA);
+        setIndustries(Object.keys(INSPIRATION_DATA).sort());
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchInspirations();
+  }, []);
+
+  useEffect(() => {
+    setImages(dbInspirations[activeIndustry] || []);
     window.scrollTo(0, 0);
-  }, [activeIndustry]);
+  }, [activeIndustry, dbInspirations]);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -56,6 +106,13 @@ export default function FindInspire() {
       <div className="inspire-orb orb-2"></div>
 
 
+      <style>{`
+        @keyframes shimmer-pulse {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+
       <div className="inspire-layout">
         {/* Left Sidebar: Sticky Industry Navigation */}
         <aside className="inspire-sidebar">
@@ -69,7 +126,7 @@ export default function FindInspire() {
                     onClick={() => setActiveIndustry(industry)}
                   >
                     <span className="industry-name">{industry}</span>
-                    <span className="industry-count">{INSPIRATION_DATA[industry]?.length || 0}</span>
+                    <span className="industry-count">{dbInspirations[industry]?.length || 0}</span>
                   </button>
                 </li>
               ))}
@@ -99,32 +156,42 @@ export default function FindInspire() {
             </motion.p>
           </header>
 
-          <div className="masonry-feed">
-            {images.map((src) => (
-              <div 
-                key={`${activeIndustry}-${src}`}
-                className="masonry-item"
-                onClick={() => setSelectedImage(src)}
-              >
-                <div className="image-wrapper">
-                  <img 
-                    src={src} 
-                    alt={`${activeIndustry} Inspiration`} 
-                    loading="lazy"
-                  />
-                  <div className="image-overlay">
-                    <div className="overlay-content">
-                      <span className="image-category">{activeIndustry}</span>
-                      <div className="overlay-line"></div>
-                      <span className="image-action">View</span>
+          {loading ? (
+            <div className="masonry-feed-loading" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px', width: '100%' }}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="masonry-item-loading" style={{ height: i % 2 === 0 ? '320px' : '240px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', overflow: 'hidden', position: 'relative' }}>
+                  <div className="shimmer-sweep" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent)', animation: 'shimmer-pulse 1.5s infinite' }} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="masonry-feed">
+              {images.map((src) => (
+                <div 
+                  key={`${activeIndustry}-${src}`}
+                  className="masonry-item"
+                  onClick={() => setSelectedImage(src)}
+                >
+                  <div className="image-wrapper">
+                    <img 
+                      src={src} 
+                      alt={`${activeIndustry} Inspiration`} 
+                      loading="lazy"
+                    />
+                    <div className="image-overlay">
+                      <div className="overlay-content">
+                        <span className="image-category">{activeIndustry}</span>
+                        <div className="overlay-line"></div>
+                        <span className="image-action">View</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {images.length === 0 && (
+          {!loading && images.length === 0 && (
             <div className="no-images">
               <p>Coming soon...</p>
             </div>

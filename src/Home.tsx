@@ -4,7 +4,7 @@ import { Sparkles } from 'lucide-react';
 import Navbar from './components/Navbar';
 
 interface HomeProps {
-  setCurrentView: (view: 'home' | 'about' | 'inspire') => void;
+  setCurrentView: (view: 'home' | 'about' | 'inspire' | 'admin') => void;
   setIsQuoteOpen: (isOpen: boolean) => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
