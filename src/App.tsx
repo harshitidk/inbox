@@ -547,12 +547,30 @@ const ServicesSection = ({ onServiceClick }: { onServiceClick: (service: any) =>
 };
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<View>('home');
+  const [currentView, setCurrentView] = useState<View>(() => {
+    return window.location.pathname === '/admin' ? 'admin' : 'home';
+  });
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<{ img: string; title: string; desc: string; products: string[] } | null>(null);
   const [prefilledQuery, setPrefilledQuery] = useState('');
   const pendingScrollAnchorRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname === '/admin') {
+        setCurrentView('admin');
+      } else if (window.location.pathname === '/about') {
+        setCurrentView('about');
+      } else if (window.location.pathname === '/inspire') {
+        setCurrentView('inspire');
+      } else {
+        setCurrentView('home');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const handleViewChange = (view: View, anchorId?: string) => {
     if (anchorId) {
@@ -561,6 +579,17 @@ export default function App() {
       pendingScrollAnchorRef.current = null;
     }
     setCurrentView(view);
+
+    // Dynamic History Routing
+    if (view === 'admin') {
+      window.history.pushState({}, '', '/admin');
+    } else if (view === 'about') {
+      window.history.pushState({}, '', '/about');
+    } else if (view === 'inspire') {
+      window.history.pushState({}, '', '/inspire');
+    } else {
+      window.history.pushState({}, '', '/');
+    }
     
     if (anchorId) {
       setTimeout(() => {
@@ -728,7 +757,7 @@ export default function App() {
       </AnimatePresence>
 
       {currentView !== 'about' && currentView !== 'inspire' && currentView !== 'admin' && (
-        <Footer onAdminClick={() => handleViewChange('admin')} />
+        <Footer />
       )}
     </>
   );
